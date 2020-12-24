@@ -1,0 +1,26 @@
+
+server:
+  port:8080
+
+#jdbc����
+spring:
+  datasource:
+    password: root
+    username: root
+    url:  jdbc:mysql://127.0.0.1:3306/gmall_study?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+
+#mybatis����
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #���ݿ��»���ת���շ�
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+#��־��ӡ����
+logging:
+  level:
+    root: debug
