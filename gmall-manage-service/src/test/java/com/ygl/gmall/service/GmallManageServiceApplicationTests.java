@@ -1,6 +1,7 @@
-package com.ygl.gmall.manage;
+package com.ygl.gmall.service;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest

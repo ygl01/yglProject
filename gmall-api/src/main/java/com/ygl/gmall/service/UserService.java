@@ -1,4 +1,4 @@
-package com.ygl.gmall.manage;
+package com.ygl.gmall.service;
 
 import com.ygl.gmall.bean.UmsMember;
 import com.ygl.gmall.bean.UmsMemberReceiveAddress;

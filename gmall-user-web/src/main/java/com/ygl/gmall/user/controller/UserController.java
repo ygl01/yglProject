@@ -4,7 +4,7 @@ package com.ygl.gmall.user.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.UmsMember;
 import com.ygl.gmall.bean.UmsMemberReceiveAddress;
-import com.ygl.gmall.manage.UserService;
+import com.ygl.gmall.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
