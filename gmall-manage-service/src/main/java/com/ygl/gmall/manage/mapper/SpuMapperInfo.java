@@ -11,6 +11,6 @@ import java.util.List;
  * @date 2020/12/26 12:10
  */
 @Mapper
-public interface SpuMapper extends tk.mybatis.mapper.common.Mapper<PmsProductInfo> {
+public interface SpuMapperInfo extends tk.mybatis.mapper.common.Mapper<PmsProductInfo> {
 
 }
