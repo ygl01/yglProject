@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author ygl
- * @description
+ * @description 测试下
  * @date 2020/12/26 12:08
  */
 public interface SpuService {
