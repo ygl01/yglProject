@@ -1,12 +1,13 @@
 package com.ygl.gmall.user.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.ygl.gmall.bean.UmsMember;
 import com.ygl.gmall.bean.UmsMemberReceiveAddress;
 import com.ygl.gmall.service.UserService;
 import com.ygl.gmall.user.mapper.UmsMemberReceiveAddressMapper;
 import com.ygl.gmall.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;;
+;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
