@@ -2,7 +2,9 @@ package com.ygl.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.PmsBaseSaleAttr;
+import com.ygl.gmall.bean.PmsProductImage;
 import com.ygl.gmall.bean.PmsProductInfo;
+import com.ygl.gmall.bean.PmsProductSaleAttr;
 import com.ygl.gmall.manage.utils.PmsUploadUtil;
 import com.ygl.gmall.service.SpuService;
 import org.csource.common.MyException;
@@ -24,6 +26,31 @@ import java.util.List;
 public class SpuController {
     @Reference
     SpuService spuService;
+
+
+    /**
+     * @author ygl
+     * 查询指定商品存在的销售属性
+     * @date 2021-01-06 09:56
+     */
+    @GetMapping("spuSaleAttrList")
+    @ResponseBody
+    public List<PmsProductSaleAttr> spuSaleAttrList(String spuId) {
+        List<PmsProductSaleAttr> pmsProductSaleAttrs = spuService.spuSaleAttrList(spuId);
+        return pmsProductSaleAttrs;
+    }
+
+    /**
+     * @author ygl
+     * 查询销售属性图片列表
+     * @date 2021-01-06 10:15
+     */
+    @GetMapping("spuImageList")
+    @ResponseBody
+    public List<PmsProductImage> spuImageList(String spuId) {
+        List<PmsProductImage> pmsProductImages = spuService.spuImageList(spuId);
+        return pmsProductImages;
+    }
 
     /**
      * @author ygl
@@ -53,16 +80,17 @@ public class SpuController {
      * @author ygl
      * 上传图片     就是当点击文件的时候会进行上传
      * @date 2020-12-26 18:41
-    */
+     */
     @PostMapping("fileUpload")
     @ResponseBody
     public String fileUpload(@RequestParam("file") MultipartFile multipartFile) throws IOException, MyException {
         //将图片或者视频上传到分布式的文件存储系统
         //将图片的存储路径返回给前台
         String imgUrl = PmsUploadUtil.uploadImage(multipartFile);
-        System.out.println("1111："+imgUrl);
+        System.out.println("1111：" + imgUrl);
         return imgUrl;
     }
+
     /**
      * @author ygl
      * 保存商品信息
@@ -71,11 +99,8 @@ public class SpuController {
     @PostMapping("saveSpuInfo")
     @ResponseBody
     public String saveSpuInfo(@RequestBody PmsProductInfo pmsProductInfo) {
-        System.out.println("准备："+pmsProductInfo);
+        System.out.println("准备：" + pmsProductInfo);
         int i = spuService.saveSpuInfo(pmsProductInfo);
         return "success。";
-
     }
-
-
 }

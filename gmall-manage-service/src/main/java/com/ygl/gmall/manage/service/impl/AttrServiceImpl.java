@@ -32,12 +32,10 @@ public class AttrServiceImpl implements AttrService {
         attrInfo.setCatalog3Id(catalog3Id);
         List<PmsBaseAttrInfo> attrInfos = attrInfoMapper.select(attrInfo);
         for (PmsBaseAttrInfo attrInfo1 : attrInfos) { //尺寸
-
             PmsBaseAttrValue pmsBaseAttrValue = new PmsBaseAttrValue();
             String attrInfoId = attrInfo1.getId();
             pmsBaseAttrValue.setAttrId(attrInfoId);
             List<PmsBaseAttrValue> select = attrValueMapper.select(pmsBaseAttrValue);
-
             attrInfo1.setAttrValueList(select);
 
         }

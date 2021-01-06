@@ -1,5 +1,5 @@
 // import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import {getToken, setToken, removeToken} from '@/utils/auth'
 
 const user = {
   state: {
@@ -39,7 +39,7 @@ const user = {
     //     })
     //   })
     // },
-    Login({ commit }, userInfo) {
+    Login({commit}, userInfo) {
       const data = {
         'token': 'admin'
       }
@@ -65,7 +65,7 @@ const user = {
     //     })
     //   })
     // },
-    GetInfo({ commit, state }) {
+    GetInfo({commit, state}) {
       const data = {
         'roles': [
           '管理员'
@@ -91,14 +91,14 @@ const user = {
     //     })
     //   })
     // },
-    LogOut({ commit, state }) {
+    LogOut({commit, state}) {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       removeToken()
     },
 
     // 前端 登出
-    FedLogOut({ commit }) {
+    FedLogOut({commit}) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         removeToken()

@@ -50,7 +50,7 @@ public class SpuServiceImpl implements SpuService {
         PmsProductInfo pmsProductInfo = spuMapperInfo.selectOne(pmsProductInfo1);
         String id = pmsProductInfo.getId();
 
-        System.out.println("打印ID："+pmsProductInfo.getId());
+        System.out.println("打印ID：" + pmsProductInfo.getId());
         List<PmsProductImage> spuImageList = pmsProductInfo1.getSpuImageList();
         List<PmsProductSaleAttr> spuSaleAttrList = pmsProductInfo1.getSpuSaleAttrList();
         //存储ImageList
@@ -71,5 +71,29 @@ public class SpuServiceImpl implements SpuService {
             }
         }
         return insert;
+    }
+
+    @Override
+    public List<PmsProductSaleAttr> spuSaleAttrList(String spuId) {
+        PmsProductSaleAttr pmsProductSaleAttr = new PmsProductSaleAttr();
+        pmsProductSaleAttr.setProductId(spuId);
+        List<PmsProductSaleAttr> pmsProductSaleAttrs = productSaleAttrMapper.select(pmsProductSaleAttr);
+        for (PmsProductSaleAttr productSaleAttr : pmsProductSaleAttrs) {
+            PmsProductSaleAttrValue pmsProductSaleAttrValue = new PmsProductSaleAttrValue();
+            pmsProductSaleAttrValue.setProductId(productSaleAttr.getProductId());
+            pmsProductSaleAttrValue.setSaleAttrId(productSaleAttr.getSaleAttrId());
+            List<PmsProductSaleAttrValue> select = productSaleAttrValueMapper.select(pmsProductSaleAttrValue);
+            productSaleAttr.setSpuSaleAttrValueList(select);
+        }
+
+        return pmsProductSaleAttrs;
+    }
+
+    @Override
+    public List<PmsProductImage> spuImageList(String spuId) {
+        PmsProductImage pmsProductImage = new PmsProductImage();
+        pmsProductImage.setProductId(spuId);
+        List<PmsProductImage> select = productImageMapper.select(pmsProductImage);
+        return select;
     }
 }

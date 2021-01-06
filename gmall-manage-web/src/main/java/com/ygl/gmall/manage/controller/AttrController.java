@@ -26,9 +26,9 @@ public class AttrController {
 
     /**
      * @author ygl
-     *查询属性列表
+     * 查询属性列表
      * @date 2020-12-25 16:13
-    */
+     */
     @GetMapping("attrInfoList")
     @ResponseBody
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
@@ -37,25 +37,27 @@ public class AttrController {
 
         return attrInfos;
     }
+
     /**
      * @author ygl
      * 增加属性名称和属性值名称
      * @date 2020-12-25 16:15
-    */
+     */
     @PostMapping("saveAttrInfo")
     @ResponseBody
-    public String saveAttrInfo(@RequestBody PmsBaseAttrInfo pmsBaseAttrInfo){
+    public String saveAttrInfo(@RequestBody PmsBaseAttrInfo pmsBaseAttrInfo) {
         attrService.saveAttrInfo(pmsBaseAttrInfo);
         return "succes";
     }
+
     /**
      * @author ygl
      * 根据id查找所有属性值
      * @date 2020-12-25 20:12
-    */
+     */
     @PostMapping("getAttrValueList")
     @ResponseBody
-    public List<PmsBaseAttrValue> getAttrValueList(String attrId){
+    public List<PmsBaseAttrValue> getAttrValueList(String attrId) {
 
 
         List<PmsBaseAttrValue> pmsBaseAttrValues = attrService.getAttrValueList(attrId);

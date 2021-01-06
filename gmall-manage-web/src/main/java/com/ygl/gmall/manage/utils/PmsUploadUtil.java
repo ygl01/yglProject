@@ -22,7 +22,7 @@ public class PmsUploadUtil {
      * @author ygl
      * 工具类上传图片方法
      * @date 2021-01-05 14:41
-    */
+     */
     public static String uploadImage(MultipartFile multipartFile) throws IOException, MyException {
 
         //配置fdfs的全局连接地址
@@ -40,12 +40,12 @@ public class PmsUploadUtil {
         //获得上传的二进制对象
         byte[] bytes = multipartFile.getBytes();
         String filename = multipartFile.getOriginalFilename();//获得上传的对象名称 a.jpg
-        System.out.println("文件名："+filename);
+        System.out.println("文件名：" + filename);
         //获取最后一个 点 的位置
         int i = filename.lastIndexOf(".");
         //从点的之后以为开始截取 获得后缀名
         String extName = filename.substring(i + 1);
-        System.out.println("文件后缀名："+extName);
+        System.out.println("文件后缀名：" + extName);
         //local_filename:文件绝对路径和名字；file_ext_name:文件后缀名；meta_list：文件原生信息
         String[] uploadInfos = storageClient.upload_file(bytes, extName, null);
         String url = URL;

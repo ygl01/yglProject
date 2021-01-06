@@ -1,7 +1,6 @@
 package com.ygl.gmall.bean;
 
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;

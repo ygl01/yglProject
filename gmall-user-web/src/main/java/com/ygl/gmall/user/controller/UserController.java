@@ -30,23 +30,22 @@ public class UserController {
      */
     @GetMapping("/getReceiveAddressByMemberId")
     @ResponseBody
-    public List<UmsMemberReceiveAddress> getReceiveAddressByMemberId(String memberId){
+    public List<UmsMemberReceiveAddress> getReceiveAddressByMemberId(String memberId) {
         List<UmsMemberReceiveAddress> umsMemberReceiveAddress = userService.getReceiveAddressByMemberId(memberId);
         return umsMemberReceiveAddress;
     }
 
     /**
-    * @author ygl
+     * @author ygl
      * 查询所有用户信息
-    * @date 2020-12-22 10:23
-    */
+     * @date 2020-12-22 10:23
+     */
     @GetMapping("/getAllUser")
     @ResponseBody
-    public List<UmsMember> getAllUSer(){
+    public List<UmsMember> getAllUSer() {
         List<UmsMember> umsMembers = userService.getAllUser();
         return umsMembers;
     }
-
 
 
     /**
@@ -57,7 +56,7 @@ public class UserController {
 
     @GetMapping("/index")
     @ResponseBody
-    public String index(){
+    public String index() {
         return "hello";
     }
 }

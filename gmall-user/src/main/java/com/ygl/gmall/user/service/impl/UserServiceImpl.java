@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     UmsMemberReceiveAddressMapper umsMemberReceiveAddressMapper;
 
     @Override
-    public List<UmsMember> getAllUser(){
+    public List<UmsMember> getAllUser() {
 
         List<com.ygl.gmall.bean.UmsMember> umsMembers = userMapper.selectAll();// userMapper.selectAllUser();
         return umsMembers;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public List<UmsMemberReceiveAddress> getReceiveAddressByMemberId(String memberId) {
         //根据memberId进行查询
         Example e = new Example(UmsMemberReceiveAddress.class);
-        e.createCriteria().andEqualTo("memberId",memberId);
+        e.createCriteria().andEqualTo("memberId", memberId);
         List<UmsMemberReceiveAddress> umsMemberReceiveAddresses = umsMemberReceiveAddressMapper.selectByExample(e);
 
         //上面这种方法类似于下面注释的这种

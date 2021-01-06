@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface AttrService {
     List<PmsBaseAttrInfo> attrInfoList(String catalog3Id);
+
     void saveAttrInfo(PmsBaseAttrInfo pmsBaseAttrInfo);
+
     List<PmsBaseAttrValue> getAttrValueList(String attrId);
 }

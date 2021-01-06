@@ -1,8 +1,7 @@
-
 server:
   port:8080
 
-#jdbc����
+#jdbc配置
 spring:
   datasource:
     password: root
@@ -12,15 +11,15 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
 
 
-#mybatis����
+#mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-  #���ݿ��»���ת���շ�
+  #数据库下划线转成驼峰
   configuration:
     map-underscore-to-camel-case: true
 
 
-#��־��ӡ����
+#日志打印级别
 logging:
   level:
     root: debug
