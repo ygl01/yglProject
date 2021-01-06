@@ -1,14 +1,8 @@
 package com.ygl.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.ygl.gmall.bean.PmsBaseSaleAttr;
-import com.ygl.gmall.bean.PmsProductImage;
-import com.ygl.gmall.bean.PmsProductInfo;
-import com.ygl.gmall.bean.PmsProductSaleAttr;
-import com.ygl.gmall.manage.mapper.BaseSaleAttrMapper;
-import com.ygl.gmall.manage.mapper.ProductImageMapper;
-import com.ygl.gmall.manage.mapper.ProductSaleAttrMapper;
-import com.ygl.gmall.manage.mapper.SpuMapperInfo;
+import com.ygl.gmall.bean.*;
+import com.ygl.gmall.manage.mapper.*;
 import com.ygl.gmall.service.SpuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,7 +17,7 @@ import java.util.List;
 public class SpuServiceImpl implements SpuService {
 
     @Autowired
-    SpuMapperInfo spuMapperInfo;
+    SpuInfoMapper spuMapperInfo;
 
     @Autowired
     BaseSaleAttrMapper baseSaleAttrMapper;
@@ -31,6 +25,8 @@ public class SpuServiceImpl implements SpuService {
     ProductSaleAttrMapper productSaleAttrMapper;
     @Autowired
     ProductImageMapper productImageMapper;
+    @Autowired
+    ProductSaleAttrValueMapper productSaleAttrValueMapper;
 
 
     @Override
@@ -48,19 +44,32 @@ public class SpuServiceImpl implements SpuService {
     }
 
     @Override
-    public int saveSpuInfo(PmsProductInfo pmsProductInfo) {
-        List<PmsProductImage> spuImageList = pmsProductInfo.getSpuImageList();
-        List<PmsProductSaleAttr> spuSaleAttrList = pmsProductInfo.getSpuSaleAttrList();
+    public int saveSpuInfo(PmsProductInfo pmsProductInfo1) {
+        int insert = spuMapperInfo.insert(pmsProductInfo1);
+        //获取插入数据库后的商品id
+        PmsProductInfo pmsProductInfo = spuMapperInfo.selectOne(pmsProductInfo1);
+        String id = pmsProductInfo.getId();
+
+        System.out.println("打印ID："+pmsProductInfo.getId());
+        List<PmsProductImage> spuImageList = pmsProductInfo1.getSpuImageList();
+        List<PmsProductSaleAttr> spuSaleAttrList = pmsProductInfo1.getSpuSaleAttrList();
         //存储ImageList
         for (PmsProductImage pmsProductImage : spuImageList) {
+            pmsProductImage.setProductId(id);
             //暂时未写
+            productImageMapper.insert(pmsProductImage);
         }
 
         //存储SaleAttrList
         for (PmsProductSaleAttr pmsProductSaleAttr : spuSaleAttrList) {
+            pmsProductSaleAttr.setProductId(id);
             productSaleAttrMapper.insert(pmsProductSaleAttr);
+            List<PmsProductSaleAttrValue> spuSaleAttrValueList = pmsProductSaleAttr.getSpuSaleAttrValueList();
+            for (PmsProductSaleAttrValue pmsProductSaleAttrValue : spuSaleAttrValueList) {
+                pmsProductSaleAttrValue.setProductId(id);
+                productSaleAttrValueMapper.insert(pmsProductSaleAttrValue);
+            }
         }
-        int insert = spuMapperInfo.insert(pmsProductInfo);
         return insert;
     }
 }

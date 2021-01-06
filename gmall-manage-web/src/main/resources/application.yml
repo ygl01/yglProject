@@ -2,30 +2,30 @@ server:
   port: 8081
 
 
-#ÅäÖÃÈÕÖ¾¼¶±ğ
+#é…ç½®æ—¥å¿—çº§åˆ«
 logging:
   level:
     root: debug
 
-#dubboÅäÖÃ
+#dubboé…ç½®
 spring:
   dubbo:
     application: manage-web
-    #dubboÍ¨Ñ¶Ğ­ÒéÃû³Æ
+    #dubboé€šè®¯åè®®åç§°
     protocol:
       name: dubbo
 
     registry:
-      #zookeeper×¢²áÖĞĞÄµØÖ·
+      #zookeeperæ³¨å†Œä¸­å¿ƒåœ°å€
       address: 192.168.80.91:2181
-      #zookeeperµÄÍ¨Ñ¶Ğ­ÒéÃû³Æ
+      #zookeeperçš„é€šè®¯åè®®åç§°
       protocol: zookeeper
-    #dubboµÄÉ¨ÃèÂ·¾¶
+    #dubboçš„æ‰«æè·¯å¾„
     base-package: com.ygl.gmall
 
     consumer:
-      #ÉèÖÃ³¬Ê±Ê±¼ä  Ê®·ÖÖÓ
+      #è®¾ç½®è¶…æ—¶æ—¶é—´  ååˆ†é’Ÿ
       timeout: 600000
-      #ÉèÖÃÊÇ·ñ¼ì²é·şÎñ´æÔÚ
+      #è®¾ç½®æ˜¯å¦æ£€æŸ¥æœåŠ¡å­˜åœ¨
       check: false
 

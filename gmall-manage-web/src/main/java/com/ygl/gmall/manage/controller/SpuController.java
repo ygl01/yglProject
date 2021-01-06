@@ -3,12 +3,15 @@ package com.ygl.gmall.manage.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.PmsBaseSaleAttr;
 import com.ygl.gmall.bean.PmsProductInfo;
+import com.ygl.gmall.manage.utils.PmsUploadUtil;
 import com.ygl.gmall.service.SpuService;
+import org.csource.common.MyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.websocket.server.PathParam;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -53,11 +56,11 @@ public class SpuController {
     */
     @PostMapping("fileUpload")
     @ResponseBody
-    public String fileUpload(@RequestParam("file") MultipartFile multipartFile){
+    public String fileUpload(@RequestParam("file") MultipartFile multipartFile) throws IOException, MyException {
         //将图片或者视频上传到分布式的文件存储系统
-
         //将图片的存储路径返回给前台
-        String imgUrl = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1603365312,3218205429&fm=26&gp=0.jpg";
+        String imgUrl = PmsUploadUtil.uploadImage(multipartFile);
+        System.out.println("1111："+imgUrl);
         return imgUrl;
     }
     /**
@@ -68,7 +71,7 @@ public class SpuController {
     @PostMapping("saveSpuInfo")
     @ResponseBody
     public String saveSpuInfo(@RequestBody PmsProductInfo pmsProductInfo) {
-
+        System.out.println("准备："+pmsProductInfo);
         int i = spuService.saveSpuInfo(pmsProductInfo);
         return "success。";
 

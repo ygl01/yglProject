@@ -12,6 +12,7 @@
         <module name="gmall-manage-service" />
         <module name="gmall-manage-web" />
         <module name="gmall-service-util" />
+        <module name="fastdfs-client-java" />
         <module name="gmall-user-service" />
         <module name="gmall-web-util" />
         <module name="demo" />
@@ -20,6 +21,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo" target="1.8" />
+      <module name="fastdfs-client-java" target="1.6" />
       <module name="gmall-api" target="1.5" />
       <module name="gmall-common-util" target="1.8" />
       <module name="gmall-manage-service" target="1.8" />

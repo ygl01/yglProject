@@ -2,7 +2,7 @@
 server:
   port: 8070
 
-#jdbcÅäÖÃ
+#jdbcé…ç½®
 spring:
   datasource:
     password: root
@@ -10,31 +10,31 @@ spring:
     url:  jdbc:mysql://127.0.0.1:3306/gmall_study?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-  #dubboµÄÅäÖÃ
+  #dubboçš„é…ç½®
   dubbo:
-    #dubbo·şÎñÃû³Æ
+    #dubboæœåŠ¡åç§°
     application: user-service
     registry:
-      #zookeeper×¢²áÖĞĞÄµØÖ·
+      #zookeeperæ³¨å†Œä¸­å¿ƒåœ°å€
       address: 192.168.80.91:2181
-      #zookeeperµÄÍ¨Ñ¶Ğ­ÒéµÄÃû³Æ
+      #zookeeperçš„é€šè®¯åè®®çš„åç§°
       protocol: zookeeper
-    #dubboµÄÍ¨Ñ¶Ğ­ÒéÃû³Æ
+    #dubboçš„é€šè®¯åè®®åç§°
     protocol:
       name: dubbo
-    #dubboµÄ·şÎñÉ¨ÃèÂ·¾¶
+    #dubboçš„æœåŠ¡æ‰«æè·¯å¾„
     base-package: com.ygl.gmall
 
 
-#mybatisÅäÖÃ
+#mybatisé…ç½®
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-  #Êı¾İ¿âÏÂ»®Ïß×ª³ÉÍÕ·å
+  #æ•°æ®åº“ä¸‹åˆ’çº¿è½¬æˆé©¼å³°
   configuration:
     map-underscore-to-camel-case: true
 
 
-#ÈÕÖ¾´òÓ¡¼¶±ğ
+#æ—¥å¿—æ‰“å°çº§åˆ«
 logging:
   level:
     root: debug

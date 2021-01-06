@@ -4,9 +4,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.PmsBaseAttrInfo;
 import com.ygl.gmall.bean.PmsBaseAttrValue;
 import com.ygl.gmall.service.AttrService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +22,8 @@ public class AttrController {
 
     @Reference
     AttrService attrService;
+
+
     /**
      * @author ygl
      *查询属性列表
@@ -29,6 +33,8 @@ public class AttrController {
     @ResponseBody
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
         List<PmsBaseAttrInfo> attrInfos = attrService.attrInfoList(catalog3Id);
+
+
         return attrInfos;
     }
     /**
