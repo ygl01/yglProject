@@ -10,4 +10,6 @@ import com.ygl.gmall.bean.PmsSkuInfo;
 
 public interface SkuService {
     int saveSkuInfo(PmsSkuInfo pmsSkuInfo);
+
+    PmsSkuInfo getSkuById(String skuId);
 }

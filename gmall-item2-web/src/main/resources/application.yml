@@ -1,0 +1,48 @@
+server:
+  port: 8082
+
+
+#配置日志级别
+logging:
+  level:
+    root: debug
+
+
+
+#dubbo配置
+spring:
+  #thymeleaf
+  thymeleaf:
+    #松校验
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    #    suffix: .html
+    encoding: utf-8
+    #关闭thymeleaf缓存（热部署）
+    cache: false
+    content-type: text/html
+    #配置静态文件地址
+#    resources:
+#      static-locations: classpath:/static/
+#    mvc:
+#      static-path-pattern: /static/**
+  dubbo:
+    application: item2-web
+    #dubbo通讯协议名称
+    protocol:
+      name: dubbo
+
+    registry:
+      #zookeeper注册中心地址
+      address: 192.168.80.91:2181
+      #zookeeper的通讯协议名称
+      protocol: zookeeper
+    #dubbo的扫描路径
+    base-package: com.ygl.gmall
+
+    consumer:
+      #设置超时时间  十分钟
+      timeout: 600000
+      #设置是否检查服务存在
+      check: false
+

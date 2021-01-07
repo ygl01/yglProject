@@ -62,4 +62,27 @@ public class SkuServiceImpl implements SkuService {
         }
         return insert;
     }
+
+    @Override
+    public PmsSkuInfo getSkuById(String skuId) {
+        PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
+        pmsSkuInfo.setId(skuId);
+        PmsSkuInfo pmsSkuInfo1 = skuInfoMapper.selectOne(pmsSkuInfo);
+        //查询skuImageList
+        PmsSkuImage pmsSkuImage = new PmsSkuImage();
+        pmsSkuImage.setSkuId(skuId);
+        List<PmsSkuImage> pmsSkuImages = pmsSkuImageMapper.select(pmsSkuImage);
+        //查询skuAttrValueList
+        PmsSkuAttrValue pmsSkuAttrValue = new PmsSkuAttrValue();
+        pmsSkuAttrValue.setSkuId(skuId);
+        List<PmsSkuAttrValue> pmsSkuAttrValues = pmsSkuAttrValueMapper.select(pmsSkuAttrValue);
+        //查询skuSaleAttrValueList
+        PmsSkuSaleAttrValue pmsSkuSaleAttrValue = new PmsSkuSaleAttrValue();
+        pmsSkuSaleAttrValue.setSkuId(skuId);
+        List<PmsSkuSaleAttrValue> pmsSkuSaleAttrValues = pmsSkuSaleAttrValueMapper.select(pmsSkuSaleAttrValue);
+        pmsSkuInfo1.setSkuImageList(pmsSkuImages);
+        pmsSkuInfo1.setSkuAttrValueList(pmsSkuAttrValues);
+        pmsSkuInfo1.setSkuSaleAttrValueList(pmsSkuSaleAttrValues);
+        return pmsSkuInfo1;
+    }
 }
