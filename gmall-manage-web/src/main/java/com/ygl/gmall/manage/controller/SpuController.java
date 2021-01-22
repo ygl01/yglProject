@@ -84,6 +84,7 @@ public class SpuController {
     @PostMapping("fileUpload")
     @ResponseBody
     public String fileUpload(@RequestParam("file") MultipartFile multipartFile) throws IOException, MyException {
+        System.out.println("调用上传图片！");
         //将图片或者视频上传到分布式的文件存储系统
         //将图片的存储路径返回给前台
         String imgUrl = PmsUploadUtil.uploadImage(multipartFile);

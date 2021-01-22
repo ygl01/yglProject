@@ -49,6 +49,7 @@ public class PmsUploadUtil {
         //local_filename:文件绝对路径和名字；file_ext_name:文件后缀名；meta_list：文件原生信息
         String[] uploadInfos = storageClient.upload_file(bytes, extName, null);
         String url = URL;
+        System.out.println("URL："+url);
         for (String uploadInfo : uploadInfos) {
             url += "/" + uploadInfo;
         }

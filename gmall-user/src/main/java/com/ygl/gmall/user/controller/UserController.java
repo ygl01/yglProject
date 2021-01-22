@@ -1,6 +1,7 @@
 package com.ygl.gmall.user.controller;
 
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.UmsMember;
 import com.ygl.gmall.bean.UmsMemberReceiveAddress;
 import com.ygl.gmall.service.UserService;
@@ -20,7 +21,7 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    @Autowired
+    @Reference
     UserService userService;
 
     /**

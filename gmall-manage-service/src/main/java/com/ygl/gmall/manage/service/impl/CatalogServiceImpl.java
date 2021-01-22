@@ -30,7 +30,9 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<PmsBaseCatalog1> getCatalog1() {
+        System.out.println("俺又来喽、、、" );
         List<PmsBaseCatalog1> pmsBaseCatalog1s = catalog1Mapper.selectAll();
+        System.out.println("让我看看打印的什么："+pmsBaseCatalog1s);
         return pmsBaseCatalog1s;
     }
 

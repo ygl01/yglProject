@@ -29,6 +29,7 @@ public class CatalogController {
     @PostMapping("getCatalog1")
     @ResponseBody
     public List<PmsBaseCatalog1> getCatalog1() {
+        System.out.println("来了小老弟！！！！！");
         List<PmsBaseCatalog1> pmsBaseCatalog1s = catalogService.getCatalog1();
         System.out.println("打印：" + pmsBaseCatalog1s);
         return pmsBaseCatalog1s;
