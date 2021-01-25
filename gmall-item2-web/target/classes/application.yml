@@ -1,13 +1,10 @@
 server:
   port: 8082
 
-
 #配置日志级别
 logging:
   level:
     root: debug
-
-
 
 #dubbo配置
 spring:
