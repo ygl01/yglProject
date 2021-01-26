@@ -2,6 +2,8 @@ package com.ygl.gmall.service;
 
 import com.ygl.gmall.bean.PmsSkuInfo;
 
+import java.util.List;
+
 /**
  * @author ygl
  * @description
@@ -12,4 +14,6 @@ public interface SkuService {
     int saveSkuInfo(PmsSkuInfo pmsSkuInfo);
 
     PmsSkuInfo getSkuById(String skuId);
+
+    List<PmsSkuInfo> getSkuSaleAttrValueListBySpu(String productId);
 }

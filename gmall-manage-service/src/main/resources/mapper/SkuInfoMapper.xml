@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygl.gmall.manage.mapper.SkuInfoMapper">
+    <!--    注意：这里是双重集合，不能再resultType="实体类地址"-->
+
+    <select id="selectSkuSaleAttrValueListBySpu" resultMap="selectSpuSaleAttrListCheckBySkuMap">
+        SELECT
+            si.*,ssav.*,si.id as si_id, ssav.id as ssav_id
+        FROM pms_sku_info si,pms_sku_sale_attr_value ssav
+        WHERE si.product_id = #{productId} and ssav.sku_id = si.id
+    </select>
+    <!--autoMapping="true"代表剩下的属性自主封装，自己搞定-->
+    <resultMap id="selectSpuSaleAttrListCheckBySkuMap" type="com.ygl.gmall.bean.PmsSkuInfo" autoMapping="true">
+        <result property="id" column="si_id"></result>
+
+        <collection property="skuSaleAttrValueList" ofType="com.ygl.gmall.bean.PmsSkuSaleAttrValue" autoMapping="true">
+            <result column="ssav_id" property="id"></result>
+        </collection>
+    </resultMap>
+</mapper>

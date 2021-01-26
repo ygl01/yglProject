@@ -12,7 +12,7 @@
 	<body>
 		<div id="max">
 		<header>
-
+			<input type="text" th:value="${skuSaleAttrHashJsonStr}" id="valuesSku">
 					<div class="min">
 						<ul class="header_ul_left">
 							<li class="glyphicon glyphicon-home"> <a href="shouye.html" class="aa">首页</a></li>
@@ -1020,17 +1020,31 @@
         }
 
         function switchSkuId() {
-            // 被选中属性
-            var checkDivs = $(".redborder div");
-            var valueIds="";
-            // 拼接成属性值串
-            for (var i = 0; i < checkDivs.length; i++) {
-                var saleAttrValueDiv = checkDivs.eq(i);
-                if(i>0){
-                    valueIds= valueIds+"|";
-                }
-                valueIds=valueIds+saleAttrValueDiv.attr("value");
-            }
+			 var skuSaleAttrHashJsonStr = $("#valuesSku").val();
+
+			 var  saleAttrValuIds = $(".redborder div");
+			 var k = "";
+			 $(saleAttrValuIds).each(function (i,saleAttrValueId) {
+				 k=k+$(saleAttrValueId).attr("value")+"|";
+			 });
+
+			 let kusaleAttrvalueJson = JSON.parse(skuSaleAttrHashJsonStr);
+			var v_skuId = kusaleAttrvalueJson[k];
+			if(v_skuId){
+				window.location.href="http://item.gmall.com:8082/"+v_skuId+".html"
+			}
+
+            // // 被选中属性
+            // var checkDivs = $(".redborder div");
+            // var valueIds="";
+            // // 拼接成属性值串
+            // for (var i = 0; i < checkDivs.length; i++) {
+            //     var saleAttrValueDiv = checkDivs.eq(i);
+            //     if(i>0){
+            //         valueIds= valueIds+"|";
+            //     }
+            //     valueIds=valueIds+saleAttrValueDiv.attr("value");
+            // }
             //页面上的hashjson
             var valuesSku = $("#valuesSku").attr("value");
             var valuesSkuJson=JSON.parse(valuesSku);
