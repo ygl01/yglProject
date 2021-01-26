@@ -2,8 +2,13 @@
 server:
   port: 8070
 
-#jdbc配置
 spring:
+  #redis配置
+  redis:
+    host: 192.168.80.133
+    port: 6379
+    database: 0
+  #Jdbc配置
   datasource:
     username: root
     password: 123456

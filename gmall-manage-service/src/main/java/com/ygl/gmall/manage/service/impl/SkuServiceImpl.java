@@ -63,8 +63,12 @@ public class SkuServiceImpl implements SkuService {
         return insert;
     }
 
-    @Override
-    public PmsSkuInfo getSkuById(String skuId) {
+    /**
+     * 从数据库中进行查询商品
+     * @param skuId
+     * @return
+     */
+    public PmsSkuInfo getSkuByIdFromDb(String skuId){
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         pmsSkuInfo.setId(skuId);
         PmsSkuInfo pmsSkuInfo1 = skuInfoMapper.selectOne(pmsSkuInfo);
@@ -84,6 +88,28 @@ public class SkuServiceImpl implements SkuService {
         pmsSkuInfo1.setSkuAttrValueList(pmsSkuAttrValues);
         pmsSkuInfo1.setSkuSaleAttrValueList(pmsSkuSaleAttrValues);
         return pmsSkuInfo1;
+    }
+
+    /**
+     * 从redis中进行查询
+     * @param skuId
+     * @return
+     */
+    @Override
+    public PmsSkuInfo getSkuById(String skuId) {
+        //连接缓存
+
+        //查询缓存
+
+        //如果缓存中没有，去mysql中查询
+
+        //mysql查询结果存放在redis缓存中
+
+        //关闭缓存
+
+
+
+        return null;
     }
 
     @Override
