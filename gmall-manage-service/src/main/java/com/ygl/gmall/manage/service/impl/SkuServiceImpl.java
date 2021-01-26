@@ -1,6 +1,8 @@
 package com.ygl.gmall.manage.service.impl;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.ygl.gmall.bean.PmsSkuAttrValue;
 import com.ygl.gmall.bean.PmsSkuImage;
 import com.ygl.gmall.bean.PmsSkuInfo;
@@ -10,8 +12,11 @@ import com.ygl.gmall.manage.mapper.PmsSkuImageMapper;
 import com.ygl.gmall.manage.mapper.PmsSkuSaleAttrValueMapper;
 import com.ygl.gmall.manage.mapper.SkuInfoMapper;
 import com.ygl.gmall.service.SkuService;
+import com.ygl.gmall.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import redis.clients.jedis.Jedis;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +34,8 @@ public class SkuServiceImpl implements SkuService {
     PmsSkuAttrValueMapper pmsSkuAttrValueMapper;
     @Autowired
     PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
+    @Autowired
+    RedisUtil redisUtil;
 
     @Override
     public int saveSkuInfo(PmsSkuInfo pmsSkuInfo) {
@@ -37,8 +44,8 @@ public class SkuServiceImpl implements SkuService {
         List<PmsSkuInfo> select = skuInfoMapper.select(pmsSkuInfo);
         String id = select.get(0).getId();
         String id1 = pmsSkuInfo.getId();
-        System.out.println("打印skuInfo查询的id:"+id);
-        System.out.println("打印skuInfo获取的id1:"+id1);
+        System.out.println("打印skuInfo查询的id:" + id);
+        System.out.println("打印skuInfo获取的id1:" + id1);
         //插入平台属性关联
         List<PmsSkuAttrValue> skuAttrValueList = pmsSkuInfo.getSkuAttrValueList();
         for (PmsSkuAttrValue pmsSkuAttrValue : skuAttrValueList) {
@@ -65,10 +72,11 @@ public class SkuServiceImpl implements SkuService {
 
     /**
      * 从数据库中进行查询商品
+     *
      * @param skuId
      * @return
      */
-    public PmsSkuInfo getSkuByIdFromDb(String skuId){
+    public PmsSkuInfo getSkuByIdFromDb(String skuId) {
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         pmsSkuInfo.setId(skuId);
         PmsSkuInfo pmsSkuInfo1 = skuInfoMapper.selectOne(pmsSkuInfo);
@@ -84,32 +92,52 @@ public class SkuServiceImpl implements SkuService {
         PmsSkuSaleAttrValue pmsSkuSaleAttrValue = new PmsSkuSaleAttrValue();
         pmsSkuSaleAttrValue.setSkuId(skuId);
         List<PmsSkuSaleAttrValue> pmsSkuSaleAttrValues = pmsSkuSaleAttrValueMapper.select(pmsSkuSaleAttrValue);
-        pmsSkuInfo1.setSkuImageList(pmsSkuImages);
-        pmsSkuInfo1.setSkuAttrValueList(pmsSkuAttrValues);
-        pmsSkuInfo1.setSkuSaleAttrValueList(pmsSkuSaleAttrValues);
+        if (pmsSkuImages != null && pmsSkuAttrValues != null && pmsSkuSaleAttrValues != null && pmsSkuInfo1 != null) {
+            pmsSkuInfo1.setSkuImageList(pmsSkuImages);
+            pmsSkuInfo1.setSkuAttrValueList(pmsSkuAttrValues);
+            pmsSkuInfo1.setSkuSaleAttrValueList(pmsSkuSaleAttrValues);
+        }
+        System.out.println("打印：" + pmsSkuInfo1);
         return pmsSkuInfo1;
     }
 
     /**
      * 从redis中进行查询
+     *
      * @param skuId
      * @return
      */
     @Override
     public PmsSkuInfo getSkuById(String skuId) {
+        long start = new Date().getTime();
+        PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         //连接缓存
-
+        Jedis jedis = redisUtil.getJedis();
         //查询缓存
-
-        //如果缓存中没有，去mysql中查询
-
-        //mysql查询结果存放在redis缓存中
+        String skuKey = "sku:" + skuId + ":info";
+        String skuJson = jedis.get(skuKey);
+        if (!StringUtils.isBlank(skuJson)) {//if (skuJson!= null&&skuJson.equals(""))
+            pmsSkuInfo = JSON.parseObject(skuJson, PmsSkuInfo.class);
+        } else {
+            //如果缓存中没有，去mysql中查询
+            pmsSkuInfo = getSkuByIdFromDb(skuId);
+            //mysql查询结果存放在redis缓存中
+            if (pmsSkuInfo != null) {
+                String s = JSON.toJSONString(pmsSkuInfo);
+                jedis.set("sku:" + skuId + ":info", s);
+            } else {
+                //如果该sku不存在
+                //为了防止缓存穿透，设置一个短暂的key的skuId过期,值为空
+                jedis.setex("sku:" + skuId + ":info", 60, "");
+            }
+        }
 
         //关闭缓存
-
-
-
-        return null;
+        jedis.close();
+        long end = new Date().getTime();
+        long t = end - start;
+        System.out.println("用时：" + t);
+        return pmsSkuInfo;
     }
 
     @Override

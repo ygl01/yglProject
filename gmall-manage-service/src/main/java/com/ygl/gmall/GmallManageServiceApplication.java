@@ -1,4 +1,4 @@
-package com.ygl.gmall.manage;
+package com.ygl.gmall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
