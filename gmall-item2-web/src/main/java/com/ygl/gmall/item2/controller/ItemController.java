@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,10 +55,12 @@ public class ItemController {
      * @date 2021-01-07 14:12
      */
     @RequestMapping("{skuId}.html")
-    public String item(@PathVariable String skuId, ModelMap modelMap) {
+    public String item(@PathVariable String skuId, ModelMap modelMap, HttpServletRequest request) {
+        String remoteAddr = request.getRemoteAddr();//获取URL地址
 
+//        request.getHeader("")//如果采用negix代理，则使用此方法
 
-        PmsSkuInfo pmsSkuInfo = skuService.getSkuById(skuId);
+        PmsSkuInfo pmsSkuInfo = skuService.getSkuById(skuId, remoteAddr);
         //sku对象
         modelMap.put("skuInfo", pmsSkuInfo);
         //sku销售属性列表
@@ -75,11 +78,11 @@ public class ItemController {
                 k += pmsSkuSaleAttrValue.getSaleAttrValueId() + "|";//"239|245"
 
             }
-            skuSaleAttrHash.put(k,v);
+            skuSaleAttrHash.put(k, v);
         }
         //将sku的销售属性hash表放到页面
         String skuSaleAttrHashJsonStr = JSON.toJSONString(skuSaleAttrHash);
-        modelMap.put("skuSaleAttrHashJsonStr",skuSaleAttrHashJsonStr);
+        modelMap.put("skuSaleAttrHashJsonStr", skuSaleAttrHashJsonStr);
 
         return "item";
     }
