@@ -18,6 +18,7 @@ import redis.clients.jedis.Jedis;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author ygl
@@ -124,11 +125,17 @@ public class SkuServiceImpl implements SkuService {
             //如果缓存中没有，去mysql中查询
             System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"发现缓存中没有，申请缓存的分布式锁："+"sku:" + skuId + ":lock");
             //设置分布式锁
-            String OK = jedis.set("sku:" + skuId + ":lock", "1", "nx", "px", 10000);
+            String token = UUID.randomUUID().toString();
+            String OK = jedis.set("sku:" + skuId + ":lock", token, "nx", "px", 10000);
             if ((!StringUtils.isBlank(OK)) && OK.equals("OK")) {
                 System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"成功拿到锁，有权在10s内访问数据库："+"sku:" + skuId + ":lock");
                 //分布式锁设置成功，有权利在10秒内访问数据库
                 pmsSkuInfo = getSkuByIdFromDb(skuId);
+                try {
+                    Thread.sleep(1000*5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 //mysql查询结果存放在redis缓存中
                 if (pmsSkuInfo != null) {
                     String s = JSON.toJSONString(pmsSkuInfo);
@@ -138,14 +145,15 @@ public class SkuServiceImpl implements SkuService {
                     //为了防止缓存穿透，设置一个短暂的key的skuId过期,值为空
                     jedis.setex("sku:" + skuId + ":info", 60, "");
                 }
-                try {
-                    Thread.sleep(1000*5);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
                 //在访问mysql后，要将mysql的分布式锁进行释放掉
                 System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"使用完毕，将锁归还："+"sku:" + skuId + ":lock");
-                jedis.del("sku:" + skuId + ":lock");
+                String lockToken = jedis.get("sku:" + skuId + ":lock");
+                if (!(StringUtils.isBlank(lockToken))&&lockToken.equals(token)){
+
+                    jedis.del("sku:" + skuId + ":lock");//用token（也就是value和key两个一起判断）删除是否是自己的锁
+                }
+
             } else {
                 System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"没有拿到锁，开始自旋："+"sku:" + skuId + ":lock");
                 //设置失败，开启自旋（线程睡眠几秒之后，重新尝试访问该方法）
