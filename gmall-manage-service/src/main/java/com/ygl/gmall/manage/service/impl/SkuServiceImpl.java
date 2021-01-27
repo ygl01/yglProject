@@ -164,7 +164,6 @@ public class SkuServiceImpl implements SkuService {
                 }
                 return getSkuById(skuId,ip);
             }
-
         }
 
         //关闭缓存
