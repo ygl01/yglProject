@@ -31,15 +31,22 @@ public class RedissonController {
     @RequestMapping("testRedisson")
     @ResponseBody
     public String testRedisson(HttpServletRequest request){
-//        RLock lock = redissonClient.getLock("lock");
         Jedis jedis = redisUtil.getJedis();
-        String v = jedis.get("k");
-        if (StringUtils.isBlank(v)){
-            v="1";
+        RLock lock = redissonClient.getLock("lock");//声明锁
+        lock.lock();//加锁
+        try {
+            String v = jedis.get("k");
+            if (StringUtils.isBlank(v)){
+                v="1";
+            }
+            System.out.println("-》"+v);
+            jedis.set("k",(Integer.parseInt(v)+1)+"");
+
+        }finally {
+            jedis.close();
+            lock.unlock();//解锁
         }
-        System.out.println("-》"+v);
-        jedis.set("k",(Integer.parseInt(v)+1)+"");
-        jedis.close();
+
         return "success";
     }
 }
