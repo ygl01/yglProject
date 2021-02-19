@@ -17,6 +17,11 @@ public class RedisConfig {
 
     @Value("${spring.redis.database:0}")
     private int database;
+    /**
+     * @Fields password : redis的密码，在配置文件中注入
+     */
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Bean
     public RedisUtil getRedisUtil(){
@@ -24,7 +29,7 @@ public class RedisConfig {
             return null;
         }
         RedisUtil redisUtil=new RedisUtil();
-        redisUtil.initPool(host,port,database);
+        redisUtil.initPool(host,port,database,password);
         return redisUtil;
     }
 

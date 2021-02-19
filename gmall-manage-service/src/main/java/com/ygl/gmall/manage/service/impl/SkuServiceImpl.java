@@ -113,6 +113,7 @@ public class SkuServiceImpl implements SkuService {
         System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"进入商品详情的请求！");
         long start = new Date().getTime();
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
+        System.out.println("进入缓存的redis");
         //连接缓存
         Jedis jedis = redisUtil.getJedis();
         //查询缓存

@@ -59,8 +59,9 @@ public class ItemController {
         String remoteAddr = request.getRemoteAddr();//获取URL地址
 
 //        request.getHeader("")//如果采用negix代理，则使用此方法
-
+        System.out.println("进入redis");
         PmsSkuInfo pmsSkuInfo = skuService.getSkuById(skuId, remoteAddr);
+        System.out.println("出来redis!");
         //sku对象
         modelMap.put("skuInfo", pmsSkuInfo);
         //sku销售属性列表
