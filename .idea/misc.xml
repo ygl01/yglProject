@@ -18,6 +18,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-item2-web/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-redisson-test/pom.xml" />
+        <option value="$PROJECT_DIR$/gmall-search-service/pom.xml" />
+        <option value="$PROJECT_DIR$/gmall-search-web/pom.xml" />
       </list>
     </option>
   </component>

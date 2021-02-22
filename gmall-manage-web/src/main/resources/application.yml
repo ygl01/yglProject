@@ -14,6 +14,7 @@ spring:
     #dubbo通讯协议名称
     protocol:
       name: dubbo
+      port: 208081
 
     registry:
       #zookeeper注册中心地址
