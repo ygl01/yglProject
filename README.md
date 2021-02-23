@@ -10,3 +10,6 @@ gmall-manage-web 用户服务的web层端口号8081
 gmall-item-service 前台的商品详情服务 8072  （这个不需要进行写，因为可以直接调用manage-service中的sku和spu的接口） 
 gmall-item-web 前台的商品详情展示 8082
 
+gmall-search-service 搜索服务后台 8073
+gmall-search-web 搜索服务前台 8083
+

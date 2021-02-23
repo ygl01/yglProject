@@ -1,0 +1,52 @@
+server:
+  port: 8073
+
+
+spring:
+  #es整合
+  elasticsearch:
+    jest:
+      uris: http://49.235.125.139:9200
+  #redis配置
+  redis:
+    host: 49.235.125.139
+    port: 6379
+    database: 0
+    password: a18736781957
+  #jdbc配置
+  datasource:
+    username: root
+    password: a18736781957
+    url:  jdbc:mysql://49.235.125.139:3306/gmall_study?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  #dubbo的配置
+  dubbo:
+    #dubbo服务名称
+    application: search-service
+    registry:
+      #zookeeper注册中心地址
+      address: 49.235.125.139:2181
+      #zookeeper的通讯协议的名称
+      protocol: zookeeper
+    #dubbo的通讯协议名称
+    protocol:
+      name: dubbo
+      port: 20873
+      #测试
+    #dubbo的服务扫描路径
+    base-package: com.ygl.gmall
+
+
+#mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #数据库下划线转成驼峰
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+#日志打印级别
+logging:
+  level:
+    root: debug
