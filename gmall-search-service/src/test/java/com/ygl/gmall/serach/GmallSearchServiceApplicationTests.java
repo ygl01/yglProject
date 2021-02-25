@@ -159,17 +159,19 @@ public class GmallSearchServiceApplicationTests {
          */
         //查询mysql数据
         List<PmsSkuInfo> allSkuInfo = skuService.getAllSkuInfo();
+        System.out.println("数据库查询出来大小："+allSkuInfo.size());
         //转化为es数据结构
         List<PmsSearchSkuInfo> pmsSearchSkuInfoList = new ArrayList<>();
         for (PmsSkuInfo pmsSkuInfo : allSkuInfo) {
             PmsSearchSkuInfo pmsSearchSkuInfo = new PmsSearchSkuInfo();
             BeanUtils.copyProperties(pmsSkuInfo,pmsSearchSkuInfo);
+            pmsSearchSkuInfo.setId(Long.parseLong(pmsSkuInfo.getId()));
             pmsSearchSkuInfoList.add(pmsSearchSkuInfo);
 
         }
         //导入es
         for (PmsSearchSkuInfo pmsSearchSkuInfo : pmsSearchSkuInfoList) {
-            Index put = new Index.Builder(pmsSearchSkuInfo).index("gmall").type("PmsSkuInfo").id(pmsSearchSkuInfo.getId()).build();
+            Index put = new Index.Builder(pmsSearchSkuInfo).index("gmall").type("PmsSkuInfo").id(pmsSearchSkuInfo.getId()+"").build();
             jestClient.execute(put);
         }
     }

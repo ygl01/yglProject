@@ -26,20 +26,19 @@ public class RedisWithReentrantLock {
     private Map<String, Integer> currentLockers() {
         Map<String, Integer> refs = lockers.get();
         if (refs != null) {
-            System.out.println("3："+refs);
+            System.out.println("值3："+refs);
             return refs;
         }
         HashMap<Object, Object> hashMap = new HashMap<>();
         System.out.println("值："+hashMap);
         lockers.set(hashMap);
         Map map = lockers.get();
-        System.out.println("2："+map);
+        System.out.println("值2："+map);
         return lockers.get();
     }
 
     public boolean lock(String key) {
         Map refs = currentLockers();
-        System.out.println("4："+refs);
         Integer refCnt = (Integer) refs.get(key);
         if (refCnt != null) {
             refs.put(key, refCnt + 1);
@@ -70,12 +69,18 @@ public class RedisWithReentrantLock {
         return true;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Jedis jedis = new Jedis("127.0.0.1",6379);
         RedisWithReentrantLock redis = new RedisWithReentrantLock(jedis);
         System.out.println(redis.lock("codehole"));
+        Thread.sleep(9000);
+        System.out.println(redis.lock("codehole2"));
+        Thread.sleep(9000);
         System.out.println(redis.lock("codehole"));
-        System.out.println(redis.unlock("codehole"));
-        System.out.println(redis.unlock("codehole"));
+        Thread.sleep(9000);
+        System.out.println(redis.lock("codehole"));
+//        Thread.sleep(9000);
+//        System.out.println(redis.unlock("codehole"));
+//        System.out.println(redis.unlock("codehole"));
     }
 }

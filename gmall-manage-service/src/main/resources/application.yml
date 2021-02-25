@@ -28,7 +28,8 @@ spring:
     #dubbo的通讯协议名称
     protocol:
       name: dubbo
-      port: 20871
+#      port: 20871
+      port: 2871
       #测试
     #dubbo的服务扫描路径
     base-package: com.ygl.gmall

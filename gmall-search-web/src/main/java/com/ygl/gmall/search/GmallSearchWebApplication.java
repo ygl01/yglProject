@@ -1,4 +1,4 @@
-package com.ygl.gmall;
+package com.ygl.gmall.search;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
