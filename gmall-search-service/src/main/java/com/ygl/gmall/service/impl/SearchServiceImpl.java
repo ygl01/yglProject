@@ -44,16 +44,16 @@ public class SearchServiceImpl implements SearchService {
         List<SearchResult.Hit<PmsSearchSkuInfo, Void>> hits = execute.getHits(PmsSearchSkuInfo.class);
         for (SearchResult.Hit<PmsSearchSkuInfo, Void> hit : hits) {
             PmsSearchSkuInfo source = hit.source;
-
-            //高亮部分从hight解析
-
-            Map<String, List<String>> highlight = hit.highlight;
-            if (highlight != null) {
-                String skuName = highlight.get("skuName").get(0);
-                source.setSkuName(skuName);
+            if (source != null){
+                //高亮部分从hight解析
+                Map<String, List<String>> highlight = hit.highlight;
+                if (highlight != null) {
+                    String skuName = highlight.get("skuName").get(0);
+                    source.setSkuName(skuName);
+                }
+                pmsSearchSkuInfoList.add(source);
             }
 
-            pmsSearchSkuInfoList.add(source);
         }
         System.out.println("查询结果大小：" + pmsSearchSkuInfoList.size());
 
@@ -92,12 +92,12 @@ public class SearchServiceImpl implements SearchService {
         //size
         searchSourceBuilder.size(20);
         //highlight
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        //自定义高亮前置模板
-        highlightBuilder.preTags("<span style='color:red'>");
-        highlightBuilder.field("skuName");
-        //自定义高亮后置模板
-        highlightBuilder.postTags("</span>");
+            HighlightBuilder highlightBuilder = new HighlightBuilder();
+            //自定义高亮前置模板
+            highlightBuilder.preTags("<span style='color:red'>");
+            highlightBuilder.field("skuName");
+            //自定义高亮后置模板
+            highlightBuilder.postTags("</span>");
         searchSourceBuilder.highlight(highlightBuilder);
         //sort 排序
         searchSourceBuilder.sort("id", SortOrder.DESC);

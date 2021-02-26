@@ -164,6 +164,7 @@ public class GmallSearchServiceApplicationTests {
         List<PmsSearchSkuInfo> pmsSearchSkuInfoList = new ArrayList<>();
         for (PmsSkuInfo pmsSkuInfo : allSkuInfo) {
             PmsSearchSkuInfo pmsSearchSkuInfo = new PmsSearchSkuInfo();
+            //利用工具类进行将一个实体复制到另一个实体中
             BeanUtils.copyProperties(pmsSkuInfo,pmsSearchSkuInfo);
             pmsSearchSkuInfo.setId(Long.parseLong(pmsSkuInfo.getId()));
             pmsSearchSkuInfoList.add(pmsSearchSkuInfo);
