@@ -3,6 +3,7 @@ package com.ygl.gmall.service;
 import com.ygl.gmall.bean.PmsBaseAttrInfo;
 import com.ygl.gmall.bean.PmsBaseAttrValue;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -16,4 +17,6 @@ public interface AttrService {
     void saveAttrInfo(PmsBaseAttrInfo pmsBaseAttrInfo);
 
     List<PmsBaseAttrValue> getAttrValueList(String attrId);
+
+    List<PmsBaseAttrInfo> getAttrValueListByValueId(HashSet<String> valueSet);
 }

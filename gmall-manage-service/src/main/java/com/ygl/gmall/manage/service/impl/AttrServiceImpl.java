@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -86,5 +87,14 @@ public class AttrServiceImpl implements AttrService {
         pmsBaseAttrValue.setAttrId(attrId);
         List<PmsBaseAttrValue> pmsBaseAttrValues = attrValueMapper.select(pmsBaseAttrValue);
         return pmsBaseAttrValues;
+    }
+
+    @Override
+    public List<PmsBaseAttrInfo> getAttrValueListByValueId(HashSet<String> valueSet) {
+        //利用工具类将set集合转换成String类型，其分隔符为”,“，样式为：41,42,43
+        String valueIdStr = StringUtils.join(valueSet, ",");
+        System.out.println("value的ID值："+valueIdStr);
+        List<PmsBaseAttrInfo> pmsBaseAttrInfos = attrValueMapper.selectAttrValueListByValueId(valueIdStr);
+        return pmsBaseAttrInfos;
     }
 }

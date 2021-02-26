@@ -12,11 +12,12 @@ import io.searchbox.strings.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,10 @@ public class SearchServiceImpl implements SearchService {
         searchSourceBuilder.highlight(highlightBuilder);
         //sort 排序
         searchSourceBuilder.sort("id", SortOrder.DESC);
+        //aggs聚合函数
+        //不采用，这样相当于在es中增加了查询负担，导致查询效率贼慢
+//        TermsBuilder groupby_attr = AggregationBuilders.terms("groupby_attr").field("skuAttrValueList.valueId");
+//        searchSourceBuilder.aggregation(groupby_attr);
 
         String dslStr = searchSourceBuilder.toString();
         System.out.println("打印语句：" + dslStr);
