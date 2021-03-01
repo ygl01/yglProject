@@ -13,3 +13,7 @@ gmall-item-web 前台的商品详情展示 8082
 gmall-search-service 搜索服务后台 8073
 gmall-search-web 搜索服务前台 8083
 
+
+gmall-user-service 用户服务的service端口号8070
+gmall-passport-web  用户认证中心 8085
+

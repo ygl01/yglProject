@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class SearchController {
         for (PmsBaseAttrInfo pmsBaseAttrInfo : pmsBaseAttrInfos) {
             System.out.println("查询的平台属性："+pmsBaseAttrInfo.getAttrName());
         }
+
 
         modelMap.put("attrList",pmsBaseAttrInfos);
         return "list";

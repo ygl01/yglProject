@@ -13,6 +13,7 @@
          bi.id = bv.attr_id
 --         #是占位符 编译的时候是”?“，$是拼接字符串
         and bv.id IN (${valueIdStr})
+
    </select>
    <resultMap id="selectAttrValueListByValueIdMap" type="com.ygl.gmall.bean.PmsBaseAttrInfo" autoMapping="true">
       <id property="id" column="bi_id"></id>
