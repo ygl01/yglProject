@@ -54,29 +54,96 @@ public class SearchController {
         modelMap.put("attrList", pmsBaseAttrInfos);
 
         //对平台属性集合进一步处理，去掉当前条件中valueId的属性组
-        String[] delValueId = pmsSearchParam.getValueId();
-        if (delValueId != null){
-            Iterator<PmsBaseAttrInfo> iterator = pmsBaseAttrInfos.iterator();
-            while (iterator.hasNext()){
-                PmsBaseAttrInfo pmsBaseAttrInfo = iterator.next();
-                List<PmsBaseAttrValue> attrValueList = pmsBaseAttrInfo.getAttrValueList();
-                for (PmsBaseAttrValue pmsBaseAttrValue : attrValueList) {
-                    String id = pmsBaseAttrValue.getId();
-                    for (String s : delValueId) {
-                        if (s.equals(id)){
+        String[] delValueIds = pmsSearchParam.getValueId();
+        ArrayList<PmsSearchCrumb> pmsSearchCrumbs = new ArrayList<>();
+        if (delValueIds != null) {
+
+            for (String delValueId : delValueIds) {
+                Iterator<PmsBaseAttrInfo> iterator = pmsBaseAttrInfos.iterator();
+                //生成面包屑参数
+                PmsSearchCrumb pmsSearchCrumb = new PmsSearchCrumb();
+                pmsSearchCrumb.setValueId(delValueId);
+//                pmsSearchCrumb.setValueName(delValueId);
+                pmsSearchCrumb.setUrlParam(getUrlParamForCrumb(pmsSearchParam, delValueId));
+
+                while (iterator.hasNext()) {
+                    PmsBaseAttrInfo pmsBaseAttrInfo = iterator.next();
+                    List<PmsBaseAttrValue> attrValueList = pmsBaseAttrInfo.getAttrValueList();
+                    for (PmsBaseAttrValue pmsBaseAttrValue : attrValueList) {
+                        String id = pmsBaseAttrValue.getId();
+                        String valueName = pmsBaseAttrValue.getValueName();
+
+                        if (delValueId.equals(id)) {
                             //删除该属性所在的属性组
                             iterator.remove();
+                            //查找面包屑名称
+                            pmsSearchCrumb.setValueName(valueName);
                         }
                     }
                 }
+                pmsSearchCrumbs.add(pmsSearchCrumb);
             }
+            modelMap.put("attrValueSelectedList", pmsSearchCrumbs);
         }
 
 
         String urlParam = getUrlParam(pmsSearchParam);
         modelMap.put("urlParam", urlParam);
+        String keyword = pmsSearchParam.getKeyword();
+        if (StringUtils.isNotBlank(keyword)) {
+            modelMap.put("keyword", keyword);
+        }
+
+//        //面包屑
+//
+//        if (delValueIds != null) {
+//            //如果valueIds参数不为空，说明当前请求中包含属性的参数，每个属性参数，都会生成一个面包屑
+//            for (String delValueId : delValueIds) {
+//                //生成面包屑参数
+//                PmsSearchCrumb pmsSearchCrumb = new PmsSearchCrumb();
+//                pmsSearchCrumb.setValueId(delValueId);
+//                pmsSearchCrumb.setValueName(delValueId);
+//                pmsSearchCrumb.setUrlParam(getUrlParamForCrumb(pmsSearchParam, delValueId));
+//                pmsSearchCrumbs.add(pmsSearchCrumb);
+//            }
+//        }
+
+
+
 
         return "list";
+    }
+
+    private String getUrlParamForCrumb(PmsSearchParam pmsSearchParam, String delValueId) {
+        String keyword = pmsSearchParam.getKeyword();
+        String catalog3Id = pmsSearchParam.getCatalog3Id();
+        String[] skuAttrValueList = pmsSearchParam.getValueId();
+        String urlParam = "";
+
+        if (StringUtils.isNotBlank(keyword)) {
+            if (StringUtils.isNotBlank(urlParam)) {
+                urlParam = urlParam + "&";
+            }
+            urlParam = urlParam + "keyword=" + keyword;
+        }
+
+        if (StringUtils.isNotBlank(catalog3Id)) {
+            if (StringUtils.isNotBlank(urlParam)) {
+                urlParam = urlParam + "&";
+            }
+            urlParam = urlParam + "catalog3Id=" + catalog3Id;
+        }
+
+        if (skuAttrValueList != null) {
+            for (String pmsSkuAttrValue : skuAttrValueList) {
+                if (!pmsSkuAttrValue.equals(delValueId)) {
+                    urlParam = urlParam + "&valueId=" + pmsSkuAttrValue;
+                }
+            }
+        }
+
+        System.out.println("打印urlParam：" + urlParam);
+        return urlParam;
     }
 
     private String getUrlParam(PmsSearchParam pmsSearchParam) {
@@ -86,15 +153,15 @@ public class SearchController {
         String urlParam = "";
 
         if (StringUtils.isNotBlank(keyword)) {
-            if (StringUtils.isNotBlank(urlParam)){
+            if (StringUtils.isNotBlank(urlParam)) {
                 urlParam = urlParam + "&";
             }
             urlParam = urlParam + "keyword=" + keyword;
         }
 
         if (StringUtils.isNotBlank(catalog3Id)) {
-            if (StringUtils.isNotBlank(urlParam)){
-                urlParam = urlParam +"&";
+            if (StringUtils.isNotBlank(urlParam)) {
+                urlParam = urlParam + "&";
             }
             urlParam = urlParam + "catalog3Id=" + catalog3Id;
         }
@@ -106,7 +173,7 @@ public class SearchController {
             }
         }
 
-        System.out.println("打印urlParam："+urlParam);
+        System.out.println("打印urlParam：" + urlParam);
         return urlParam;
     }
 
