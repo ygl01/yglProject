@@ -183,6 +183,7 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public List<PmsSkuInfo> getAllSkuInfo() {
+        System.out.println("来喽1");
         List<PmsSkuInfo> pmsSkuInfos = skuInfoMapper.selectAll();
         for (PmsSkuInfo pmsSkuInfo : pmsSkuInfos) {
             String skuId = pmsSkuInfo.getId();
@@ -191,6 +192,7 @@ public class SkuServiceImpl implements SkuService {
             List<PmsSkuAttrValue> pmsSkuAttrValues = pmsSkuAttrValueMapper.select(pmsSkuAttrValue);
             pmsSkuInfo.setSkuAttrValueList(pmsSkuAttrValues);
         }
+        System.out.println("走喽1："+pmsSkuInfos.size());
         return pmsSkuInfos;
     }
 }

@@ -1,6 +1,8 @@
 package com.ygl.gmall.bean;
 
-public class PmsSearchCrumb {
+import java.io.Serializable;
+
+public class PmsSearchCrumb implements Serializable {
     private String valueId;
     private String valueName;
     private String urlParam;

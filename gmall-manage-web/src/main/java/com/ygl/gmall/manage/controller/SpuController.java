@@ -101,6 +101,7 @@ public class SpuController {
     @ResponseBody
     public String saveSpuInfo(@RequestBody PmsProductInfo pmsProductInfo) {
         System.out.println("准备：" + pmsProductInfo);
+        System.out.println("名字："+pmsProductInfo.getProductName());
         int i = spuService.saveSpuInfo(pmsProductInfo);
         return "success。";
     }

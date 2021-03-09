@@ -1,9 +1,8 @@
-package com.ygl.gmall.serach;
+package com.ygl.gmall.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.PmsSearchSkuInfo;
 import com.ygl.gmall.bean.PmsSkuInfo;
-import com.ygl.gmall.service.SkuService;
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -11,7 +10,6 @@ import io.searchbox.core.SearchResult;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
-import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +80,7 @@ public class GmallSearchServiceApplicationTests {
         boolQueryBuilder.must(matchQueryBuilder);
         //query
         searchSourceBuilder.query(boolQueryBuilder);
-//、、MQ、分布式队列、、、引用支付宝第三方接口、
+
 
         //from
         searchSourceBuilder.from(0);

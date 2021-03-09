@@ -3,6 +3,10 @@ server:
 
 
 spring:
+  #es整合
+  elasticsearch:
+    jest:
+      uris: http://49.235.125.139:9200
   #redis配置
   redis:
     host: 49.235.125.139
