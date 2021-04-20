@@ -16,10 +16,10 @@
         <module name="gmall-item2-web" />
         <module name="demo" />
         <module name="gmall-api" />
-        <module name="gmall-manage-web" />
         <module name="gmall-manage-service" />
-        <module name="gmall-redisson-test" />
+        <module name="gmall-manage-web" />
         <module name="fastdfs-client-java" />
+        <module name="gmall-redisson-test" />
         <module name="gmall-search-service" />
         <module name="gmall-password-web" />
         <module name="gmall-common-util" />
