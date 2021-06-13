@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @CrossOrigin
 public class PassportController {
+
     @GetMapping("index")
-    public String index(){
+    public String index() {
+
         System.out.println("进来了小老弟。");
         return "index";
     }
+
 }

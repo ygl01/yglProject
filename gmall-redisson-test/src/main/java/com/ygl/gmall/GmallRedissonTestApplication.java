@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GmallRedissonTestApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(GmallRedissonTestApplication.class, args);
     }
 

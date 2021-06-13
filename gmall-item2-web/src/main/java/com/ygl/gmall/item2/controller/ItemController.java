@@ -7,11 +7,13 @@ import com.ygl.gmall.bean.*;
 import com.ygl.gmall.service.AttrService;
 import com.ygl.gmall.service.SkuService;
 import com.ygl.gmall.service.SpuService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +58,7 @@ public class ItemController {
      */
     @RequestMapping("{skuId}.html")
     public String item(@PathVariable String skuId, ModelMap modelMap, HttpServletRequest request) {
+
         String remoteAddr = request.getRemoteAddr();//获取URL地址
 
 //        request.getHeader("")//如果采用negix代理，则使用此方法
@@ -65,7 +68,8 @@ public class ItemController {
         //sku对象
         modelMap.put("skuInfo", pmsSkuInfo);
         //sku销售属性列表
-        List<PmsProductSaleAttr> pmsProductSaleAttrs = spuService.spuSaleAttrListCheckBySku(pmsSkuInfo.getProductId(), skuId);//传的商品id
+        List<PmsProductSaleAttr> pmsProductSaleAttrs =
+                spuService.spuSaleAttrListCheckBySku(pmsSkuInfo.getProductId(), skuId);//传的商品id
         modelMap.put("spuSaleAttrListCheckBySku", pmsProductSaleAttrs);
 
         //查询sku的spu的其他sku的集合hash表
@@ -87,4 +91,5 @@ public class ItemController {
 
         return "item";
     }
+
 }

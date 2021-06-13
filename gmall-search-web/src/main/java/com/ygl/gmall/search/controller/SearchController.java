@@ -5,6 +5,7 @@ import com.ygl.gmall.bean.*;
 import com.ygl.gmall.service.AttrService;
 import com.ygl.gmall.service.SearchService;
 import com.ygl.gmall.service.SkuService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -109,12 +110,11 @@ public class SearchController {
 //        }
 
 
-
-
         return "list";
     }
 
     private String getUrlParamForCrumb(PmsSearchParam pmsSearchParam, String delValueId) {
+
         String keyword = pmsSearchParam.getKeyword();
         String catalog3Id = pmsSearchParam.getCatalog3Id();
         String[] skuAttrValueList = pmsSearchParam.getValueId();
@@ -147,6 +147,7 @@ public class SearchController {
     }
 
     private String getUrlParam(PmsSearchParam pmsSearchParam) {
+
         String keyword = pmsSearchParam.getKeyword();
         String catalog3Id = pmsSearchParam.getCatalog3Id();
         String[] skuAttrValueList = pmsSearchParam.getValueId();
@@ -179,6 +180,8 @@ public class SearchController {
 
     @GetMapping("index")
     public String index() {
+
         return "/index";
     }
+
 }

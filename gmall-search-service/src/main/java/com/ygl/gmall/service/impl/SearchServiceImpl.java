@@ -5,10 +5,12 @@ import com.ygl.gmall.bean.PmsSearchParam;
 import com.ygl.gmall.bean.PmsSearchSkuInfo;
 import com.ygl.gmall.bean.PmsSkuAttrValue;
 import com.ygl.gmall.service.SearchService;
+
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 import io.searchbox.strings.StringUtils;
+
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
@@ -18,6 +20,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public List<PmsSearchSkuInfo> list(PmsSearchParam pmsSearchParam) {
+
         String dslStr = getSearchDsl(pmsSearchParam);
 
         //用api执行复杂查询
@@ -45,7 +49,7 @@ public class SearchServiceImpl implements SearchService {
         List<SearchResult.Hit<PmsSearchSkuInfo, Void>> hits = execute.getHits(PmsSearchSkuInfo.class);
         for (SearchResult.Hit<PmsSearchSkuInfo, Void> hit : hits) {
             PmsSearchSkuInfo source = hit.source;
-            if (source != null){
+            if (source != null) {
                 //高亮部分从hight解析
                 Map<String, List<String>> highlight = hit.highlight;
                 if (highlight != null) {
@@ -62,6 +66,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     private String getSearchDsl(PmsSearchParam pmsSearchParam) {
+
         String[] skuAttrValueList = pmsSearchParam.getValueId();
         String keyword = pmsSearchParam.getKeyword();
         String catalog3Id = pmsSearchParam.getCatalog3Id();
@@ -93,12 +98,12 @@ public class SearchServiceImpl implements SearchService {
         //size
         searchSourceBuilder.size(20);
         //highlight
-            HighlightBuilder highlightBuilder = new HighlightBuilder();
-            //自定义高亮前置模板
-            highlightBuilder.preTags("<span style='color:red'>");
-            highlightBuilder.field("skuName");
-            //自定义高亮后置模板
-            highlightBuilder.postTags("</span>");
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        //自定义高亮前置模板
+        highlightBuilder.preTags("<span style='color:red'>");
+        highlightBuilder.field("skuName");
+        //自定义高亮后置模板
+        highlightBuilder.postTags("</span>");
         searchSourceBuilder.highlight(highlightBuilder);
         //sort 排序
         searchSourceBuilder.sort("id", SortOrder.DESC);
@@ -111,4 +116,5 @@ public class SearchServiceImpl implements SearchService {
         System.out.println("打印语句：" + dslStr);
         return dslStr;
     }
+
 }

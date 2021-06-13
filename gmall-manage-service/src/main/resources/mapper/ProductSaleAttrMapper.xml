@@ -6,18 +6,24 @@
     <!--    注意：这里是双重集合，不能再resultType="实体类地址"-->
 
     <select id="selectSpuSaleAttrListCheckBySku" resultMap="selectSpuSaleAttrListCheckBySkuMap">
-        SELECT
-            sa.id as sa_id , sav.id as sav_id ,sa.* , sav.* , if(ssav.sku_id,1,0) as isChecked
+        SELECT sa.id                 as sa_id,
+               sav.id                as sav_id,
+               sa.*,
+               sav.*,
+               if(ssav.sku_id, 1, 0) as isChecked
         FROM pms_product_sale_attr sa
-        INNER JOIN pms_product_sale_attr_value sav on sa.product_id = sav.product_id AND sa.sale_attr_id = sav.sale_attr_id and sa.product_id = #{productId}
-        LEFT JOIN pms_sku_sale_attr_value ssav on sa.sale_attr_id = ssav.sale_attr_id
-                    and sav.id = ssav.sale_attr_value_id and ssav.sku_id = #{skuId}
+                 INNER JOIN pms_product_sale_attr_value sav
+                            on sa.product_id = sav.product_id AND sa.sale_attr_id = sav.sale_attr_id and
+                               sa.product_id = #{productId}
+                 LEFT JOIN pms_sku_sale_attr_value ssav on sa.sale_attr_id = ssav.sale_attr_id
+            and sav.id = ssav.sale_attr_value_id and ssav.sku_id = #{skuId}
     </select>
     <!--autoMapping="true"代表剩下的属性自主封装，自己搞定-->
     <resultMap id="selectSpuSaleAttrListCheckBySkuMap" type="com.ygl.gmall.bean.PmsProductSaleAttr" autoMapping="true">
         <result property="id" column="sa_id"></result>
 
-        <collection property="spuSaleAttrValueList" ofType="com.ygl.gmall.bean.PmsProductSaleAttrValue" autoMapping="true">
+        <collection property="spuSaleAttrValueList" ofType="com.ygl.gmall.bean.PmsProductSaleAttrValue"
+                    autoMapping="true">
             <result column="sav_id" property="id"></result>
         </collection>
     </resultMap>

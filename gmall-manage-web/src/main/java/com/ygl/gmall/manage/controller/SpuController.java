@@ -7,12 +7,14 @@ import com.ygl.gmall.bean.PmsProductInfo;
 import com.ygl.gmall.bean.PmsProductSaleAttr;
 import com.ygl.gmall.manage.utils.PmsUploadUtil;
 import com.ygl.gmall.service.SpuService;
+
 import org.csource.common.MyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.websocket.server.PathParam;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import java.util.List;
 @Controller
 @CrossOrigin
 public class SpuController {
+
     @Reference
     SpuService spuService;
 
@@ -36,6 +39,7 @@ public class SpuController {
     @GetMapping("spuSaleAttrList")
     @ResponseBody
     public List<PmsProductSaleAttr> spuSaleAttrList(String spuId) {
+
         List<PmsProductSaleAttr> pmsProductSaleAttrs = spuService.spuSaleAttrList(spuId);
         return pmsProductSaleAttrs;
     }
@@ -48,6 +52,7 @@ public class SpuController {
     @GetMapping("spuImageList")
     @ResponseBody
     public List<PmsProductImage> spuImageList(String spuId) {
+
         List<PmsProductImage> pmsProductImages = spuService.spuImageList(spuId);
         return pmsProductImages;
     }
@@ -60,6 +65,7 @@ public class SpuController {
     @GetMapping("spuList")
     @ResponseBody
     public List<PmsProductInfo> spuList(String catalog3Id) {
+
         List<PmsProductInfo> spuLists = spuService.spuList(catalog3Id);
         return spuLists;
     }
@@ -72,6 +78,7 @@ public class SpuController {
     @PostMapping("baseSaleAttrList")
     @ResponseBody
     public List<PmsBaseSaleAttr> baseSaleAttrList() {
+
         List<PmsBaseSaleAttr> pmsBaseSaleAttrs = spuService.baseSaleAttrList();
         return pmsBaseSaleAttrs;
     }
@@ -84,6 +91,7 @@ public class SpuController {
     @PostMapping("fileUpload")
     @ResponseBody
     public String fileUpload(@RequestParam("file") MultipartFile multipartFile) throws IOException, MyException {
+
         System.out.println("调用上传图片！");
         //将图片或者视频上传到分布式的文件存储系统
         //将图片的存储路径返回给前台
@@ -100,9 +108,11 @@ public class SpuController {
     @PostMapping("saveSpuInfo")
     @ResponseBody
     public String saveSpuInfo(@RequestBody PmsProductInfo pmsProductInfo) {
+
         System.out.println("准备：" + pmsProductInfo);
-        System.out.println("名字："+pmsProductInfo.getProductName());
+        System.out.println("名字：" + pmsProductInfo.getProductName());
         int i = spuService.saveSpuInfo(pmsProductInfo);
         return "success。";
     }
+
 }

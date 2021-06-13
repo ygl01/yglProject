@@ -13,7 +13,9 @@ import com.ygl.gmall.manage.mapper.PmsSkuSaleAttrValueMapper;
 import com.ygl.gmall.manage.mapper.SkuInfoMapper;
 import com.ygl.gmall.service.SkuService;
 import com.ygl.gmall.util.RedisUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import redis.clients.jedis.Jedis;
 
 import java.util.Date;
@@ -27,14 +29,19 @@ import java.util.UUID;
  */
 @Service
 public class SkuServiceImpl implements SkuService {
+
     @Autowired
     SkuInfoMapper skuInfoMapper;
+
     @Autowired
     PmsSkuImageMapper pmsSkuImageMapper;
+
     @Autowired
     PmsSkuAttrValueMapper pmsSkuAttrValueMapper;
+
     @Autowired
     PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
+
     @Autowired
     RedisUtil redisUtil;
 
@@ -78,6 +85,7 @@ public class SkuServiceImpl implements SkuService {
      * @return
      */
     public PmsSkuInfo getSkuByIdFromDb(String skuId) {
+
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         pmsSkuInfo.setId(skuId);
         PmsSkuInfo pmsSkuInfo1 = skuInfoMapper.selectOne(pmsSkuInfo);
@@ -110,7 +118,8 @@ public class SkuServiceImpl implements SkuService {
      */
     @Override
     public PmsSkuInfo getSkuById(String skuId, String ip) {
-        System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"进入商品详情的请求！");
+
+        System.out.println("ip为" + ip + "的同学：" + Thread.currentThread().getName() + "进入商品详情的请求！");
         long start = new Date().getTime();
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         System.out.println("进入缓存的redis");
@@ -120,20 +129,24 @@ public class SkuServiceImpl implements SkuService {
         String skuKey = "sku:" + skuId + ":info";
         String skuJson = jedis.get(skuKey);
         if (!StringUtils.isBlank(skuJson)) {//if (skuJson!= null&&skuJson.equals(""))
-            System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"从缓存中查询到了商品详情！");
+            System.out.println("ip为" + ip + "的同学：" + Thread.currentThread().getName() + "从缓存中查询到了商品详情！");
             pmsSkuInfo = JSON.parseObject(skuJson, PmsSkuInfo.class);
         } else {
             //如果缓存中没有，去mysql中查询
-            System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"发现缓存中没有，申请缓存的分布式锁："+"sku:" + skuId + ":lock");
+            System.out.println(
+                    "ip为" + ip + "的同学：" + Thread.currentThread().getName() + "发现缓存中没有，申请缓存的分布式锁：" + "sku:" + skuId +
+                            ":lock");
             //设置分布式锁
             String token = UUID.randomUUID().toString();
             String OK = jedis.set("sku:" + skuId + ":lock", token, "nx", "px", 10000);
             if ((!StringUtils.isBlank(OK)) && OK.equals("OK")) {
-                System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"成功拿到锁，有权在10s内访问数据库："+"sku:" + skuId + ":lock");
+                System.out.println(
+                        "ip为" + ip + "的同学：" + Thread.currentThread().getName() + "成功拿到锁，有权在10s内访问数据库：" + "sku:" +
+                                skuId + ":lock");
                 //分布式锁设置成功，有权利在10秒内访问数据库
                 pmsSkuInfo = getSkuByIdFromDb(skuId);
                 try {
-                    Thread.sleep(1000*5);
+                    Thread.sleep(1000 * 5);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -148,22 +161,26 @@ public class SkuServiceImpl implements SkuService {
                 }
 
                 //在访问mysql后，要将mysql的分布式锁进行释放掉
-                System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"使用完毕，将锁归还："+"sku:" + skuId + ":lock");
+                System.out.println(
+                        "ip为" + ip + "的同学：" + Thread.currentThread().getName() + "使用完毕，将锁归还：" + "sku:" + skuId +
+                                ":lock");
                 String lockToken = jedis.get("sku:" + skuId + ":lock");
-                if (!(StringUtils.isBlank(lockToken))&&lockToken.equals(token)){
+                if (!(StringUtils.isBlank(lockToken)) && lockToken.equals(token)) {
 
                     jedis.del("sku:" + skuId + ":lock");//用token（也就是value和key两个一起判断）删除是否是自己的锁
                 }
 
             } else {
-                System.out.println("ip为"+ip+"的同学："+Thread.currentThread().getName()+"没有拿到锁，开始自旋："+"sku:" + skuId + ":lock");
+                System.out.println(
+                        "ip为" + ip + "的同学：" + Thread.currentThread().getName() + "没有拿到锁，开始自旋：" + "sku:" + skuId +
+                                ":lock");
                 //设置失败，开启自旋（线程睡眠几秒之后，重新尝试访问该方法）
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return getSkuById(skuId,ip);
+                return getSkuById(skuId, ip);
             }
         }
 
@@ -177,12 +194,14 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public List<PmsSkuInfo> getSkuSaleAttrValueListBySpu(String productId) {
+
         List<PmsSkuInfo> pmsSkuInfos = skuInfoMapper.selectSkuSaleAttrValueListBySpu(productId);
         return pmsSkuInfos;
     }
 
     @Override
     public List<PmsSkuInfo> getAllSkuInfo() {
+
         System.out.println("来喽1");
         List<PmsSkuInfo> pmsSkuInfos = skuInfoMapper.selectAll();
         for (PmsSkuInfo pmsSkuInfo : pmsSkuInfos) {
@@ -192,7 +211,8 @@ public class SkuServiceImpl implements SkuService {
             List<PmsSkuAttrValue> pmsSkuAttrValues = pmsSkuAttrValueMapper.select(pmsSkuAttrValue);
             pmsSkuInfo.setSkuAttrValueList(pmsSkuAttrValues);
         }
-        System.out.println("走喽1："+pmsSkuInfos.size());
+        System.out.println("走喽1：" + pmsSkuInfos.size());
         return pmsSkuInfos;
     }
+
 }

@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.UmsMember;
 import com.ygl.gmall.bean.UmsMemberReceiveAddress;
 import com.ygl.gmall.service.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -31,6 +32,7 @@ public class UserController {
     @GetMapping("/getReceiveAddressByMemberId")
     @ResponseBody
     public List<UmsMemberReceiveAddress> getReceiveAddressByMemberId(String memberId) {
+
         List<UmsMemberReceiveAddress> umsMemberReceiveAddress = userService.getReceiveAddressByMemberId(memberId);
         return umsMemberReceiveAddress;
     }
@@ -43,6 +45,7 @@ public class UserController {
     @GetMapping("/getAllUser")
     @ResponseBody
     public List<UmsMember> getAllUSer() {
+
         List<UmsMember> umsMembers = userService.getAllUser();
         return umsMembers;
     }
@@ -57,6 +60,8 @@ public class UserController {
     @GetMapping("/index")
     @ResponseBody
     public String index() {
+
         return "hello";
     }
+
 }

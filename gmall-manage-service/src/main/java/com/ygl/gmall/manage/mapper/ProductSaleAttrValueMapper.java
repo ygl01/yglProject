@@ -1,6 +1,7 @@
 package com.ygl.gmall.manage.mapper;
 
 import com.ygl.gmall.bean.PmsProductSaleAttrValue;
+
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,4 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ProductSaleAttrValueMapper extends tk.mybatis.mapper.common.Mapper<PmsProductSaleAttrValue> {
+
 }

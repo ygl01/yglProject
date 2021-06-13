@@ -1,6 +1,7 @@
 package com.ygl.gmall.manage.mapper;
 
 import com.ygl.gmall.bean.PmsProductSaleAttr;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,5 +14,8 @@ import java.util.List;
  */
 @Mapper
 public interface ProductSaleAttrMapper extends tk.mybatis.mapper.common.Mapper<PmsProductSaleAttr> {
-    List<PmsProductSaleAttr> selectSpuSaleAttrListCheckBySku(@Param("productId") String productId, @Param("skuId") String skuId);
+
+    List<PmsProductSaleAttr> selectSpuSaleAttrListCheckBySku(@Param("productId") String productId,
+                                                             @Param("skuId") String skuId);
+
 }

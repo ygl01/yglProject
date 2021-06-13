@@ -6,10 +6,14 @@
     <!--    注意：这里是双重集合，不能再resultType="实体类地址"-->
 
     <select id="selectSkuSaleAttrValueListBySpu" resultMap="selectSpuSaleAttrListCheckBySkuMap">
-        SELECT
-            si.*,ssav.*,si.id as si_id, ssav.id as ssav_id
-        FROM pms_sku_info si,pms_sku_sale_attr_value ssav
-        WHERE si.product_id = #{productId} and ssav.sku_id = si.id
+        SELECT si.*,
+               ssav.*,
+               si.id   as si_id,
+               ssav.id as ssav_id
+        FROM pms_sku_info si,
+             pms_sku_sale_attr_value ssav
+        WHERE si.product_id = #{productId}
+          and ssav.sku_id = si.id
     </select>
     <!--autoMapping="true"代表剩下的属性自主封装，自己搞定-->
     <resultMap id="selectSpuSaleAttrListCheckBySkuMap" type="com.ygl.gmall.bean.PmsSkuInfo" autoMapping="true">

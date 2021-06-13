@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.ygl.gmall.bean.*;
 import com.ygl.gmall.manage.mapper.*;
 import com.ygl.gmall.service.SpuService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,16 +22,20 @@ public class SpuServiceImpl implements SpuService {
 
     @Autowired
     BaseSaleAttrMapper baseSaleAttrMapper;
+
     @Autowired
     ProductSaleAttrMapper productSaleAttrMapper;
+
     @Autowired
     ProductImageMapper productImageMapper;
+
     @Autowired
     ProductSaleAttrValueMapper productSaleAttrValueMapper;
 
 
     @Override
     public List<PmsProductInfo> spuList(String catalog3Id) {
+
         PmsProductInfo pmsProductInfo = new PmsProductInfo();
         pmsProductInfo.setCatalog3Id(catalog3Id);
         List<PmsProductInfo> pmsProductInfos = spuMapperInfo.select(pmsProductInfo);
@@ -39,12 +44,14 @@ public class SpuServiceImpl implements SpuService {
 
     @Override
     public List<PmsBaseSaleAttr> baseSaleAttrList() {
+
         List<PmsBaseSaleAttr> pmsBaseSaleAttrs = baseSaleAttrMapper.selectAll();
         return pmsBaseSaleAttrs;
     }
 
     @Override
     public int saveSpuInfo(PmsProductInfo pmsProductInfo1) {
+
         int insert = spuMapperInfo.insert(pmsProductInfo1);
         //获取插入数据库后的商品id
         PmsProductInfo pmsProductInfo = spuMapperInfo.selectOne(pmsProductInfo1);
@@ -75,6 +82,7 @@ public class SpuServiceImpl implements SpuService {
 
     @Override
     public List<PmsProductSaleAttr> spuSaleAttrList(String spuId) {
+
         PmsProductSaleAttr pmsProductSaleAttr = new PmsProductSaleAttr();
         pmsProductSaleAttr.setProductId(spuId);
         List<PmsProductSaleAttr> pmsProductSaleAttrs = productSaleAttrMapper.select(pmsProductSaleAttr);
@@ -91,6 +99,7 @@ public class SpuServiceImpl implements SpuService {
 
     @Override
     public List<PmsProductImage> spuImageList(String spuId) {
+
         PmsProductImage pmsProductImage = new PmsProductImage();
         pmsProductImage.setProductId(spuId);
         List<PmsProductImage> select = productImageMapper.select(pmsProductImage);
@@ -98,7 +107,7 @@ public class SpuServiceImpl implements SpuService {
     }
 
     @Override
-    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId,String skuId) {
+    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId, String skuId) {
 //        PmsProductSaleAttr pmsProductSaleAttr = new PmsProductSaleAttr();
 //        pmsProductSaleAttr.setProductId(productId);
 //        List<PmsProductSaleAttr> pmsProductSaleAttrs = productSaleAttrMapper.select(pmsProductSaleAttr);
@@ -111,7 +120,9 @@ public class SpuServiceImpl implements SpuService {
 //            productSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
 //
 //        }
-        List<PmsProductSaleAttr> pmsProductSaleAttrs = productSaleAttrMapper.selectSpuSaleAttrListCheckBySku(productId,skuId);
+        List<PmsProductSaleAttr> pmsProductSaleAttrs =
+                productSaleAttrMapper.selectSpuSaleAttrListCheckBySku(productId, skuId);
         return pmsProductSaleAttrs;
     }
+
 }

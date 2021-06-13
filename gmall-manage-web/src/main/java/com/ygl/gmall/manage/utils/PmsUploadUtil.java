@@ -1,6 +1,7 @@
 package com.ygl.gmall.manage.utils;
 
 import com.ygl.gmall.manage.GmallManageWebApplication;
+
 import org.csource.common.MyException;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.StorageClient;
@@ -18,6 +19,7 @@ import static com.ygl.gmall.manage.utils.ConstantInterface.URL;
  * @date 2021/1/5 14:38
  */
 public class PmsUploadUtil {
+
     /**
      * @author ygl
      * 工具类上传图片方法
@@ -49,7 +51,7 @@ public class PmsUploadUtil {
         //local_filename:文件绝对路径和名字；file_ext_name:文件后缀名；meta_list：文件原生信息
         String[] uploadInfos = storageClient.upload_file(bytes, extName, null);
         String url = URL;
-        System.out.println("URL："+url);
+        System.out.println("URL：" + url);
         for (String uploadInfo : uploadInfos) {
             url += "/" + uploadInfo;
         }

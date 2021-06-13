@@ -1,6 +1,7 @@
 package com.ygl.gmall.manage.mapper;
 
 import com.ygl.gmall.bean.PmsBaseCatalog1;
+
 import org.apache.ibatis.annotations.Mapper;
 
 /**

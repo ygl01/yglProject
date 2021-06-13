@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.ygl.gmall.bean.PmsBaseAttrInfo;
 import com.ygl.gmall.bean.PmsBaseAttrValue;
 import com.ygl.gmall.service.AttrService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class AttrController {
     @GetMapping("attrInfoList")
     @ResponseBody
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
+
         List<PmsBaseAttrInfo> attrInfos = attrService.attrInfoList(catalog3Id);
 
 
@@ -46,6 +48,7 @@ public class AttrController {
     @PostMapping("saveAttrInfo")
     @ResponseBody
     public String saveAttrInfo(@RequestBody PmsBaseAttrInfo pmsBaseAttrInfo) {
+
         attrService.saveAttrInfo(pmsBaseAttrInfo);
         return "succes";
     }

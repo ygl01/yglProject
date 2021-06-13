@@ -6,8 +6,10 @@ import com.ygl.gmall.bean.PmsBaseAttrValue;
 import com.ygl.gmall.manage.mapper.AttrInfoMapper;
 import com.ygl.gmall.manage.mapper.AttrValueMapper;
 import com.ygl.gmall.service.AttrService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -21,14 +23,17 @@ import java.util.List;
  */
 @Service
 public class AttrServiceImpl implements AttrService {
+
     @Autowired
     AttrInfoMapper attrInfoMapper;
+
     @Autowired
     AttrValueMapper attrValueMapper;
 
 
     @Override
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
+
         PmsBaseAttrInfo attrInfo = new PmsBaseAttrInfo();
         attrInfo.setCatalog3Id(catalog3Id);
         List<PmsBaseAttrInfo> attrInfos = attrInfoMapper.select(attrInfo);
@@ -45,6 +50,7 @@ public class AttrServiceImpl implements AttrService {
 
     @Override
     public void saveAttrInfo(PmsBaseAttrInfo pmsBaseAttrInfo) {
+
         String id = pmsBaseAttrInfo.getId();
         if (StringUtils.isBlank(id)) {
             //判断id是否为空，如果为空咋插入
@@ -83,6 +89,7 @@ public class AttrServiceImpl implements AttrService {
 
     @Override
     public List<PmsBaseAttrValue> getAttrValueList(String attrId) {
+
         PmsBaseAttrValue pmsBaseAttrValue = new PmsBaseAttrValue();
         pmsBaseAttrValue.setAttrId(attrId);
         List<PmsBaseAttrValue> pmsBaseAttrValues = attrValueMapper.select(pmsBaseAttrValue);
@@ -93,8 +100,9 @@ public class AttrServiceImpl implements AttrService {
     public List<PmsBaseAttrInfo> getAttrValueListByValueId(HashSet<String> valueSet) {
         //利用工具类将set集合转换成String类型，其分隔符为”,“，样式为：41,42,43
         String valueIdStr = StringUtils.join(valueSet, ",");
-        System.out.println("value的ID值："+valueIdStr);
+        System.out.println("value的ID值：" + valueIdStr);
         List<PmsBaseAttrInfo> pmsBaseAttrInfos = attrValueMapper.selectAttrValueListByValueId(valueIdStr);
         return pmsBaseAttrInfos;
     }
+
 }

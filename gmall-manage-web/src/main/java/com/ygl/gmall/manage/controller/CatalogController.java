@@ -5,6 +5,7 @@ import com.ygl.gmall.bean.PmsBaseCatalog1;
 import com.ygl.gmall.bean.PmsBaseCatalog2;
 import com.ygl.gmall.bean.PmsBaseCatalog3;
 import com.ygl.gmall.service.CatalogService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ public class CatalogController {
     @PostMapping("getCatalog1")
     @ResponseBody
     public List<PmsBaseCatalog1> getCatalog1() {
+
         System.out.println("来了小老弟！！！！！");
         List<PmsBaseCatalog1> pmsBaseCatalog1s = catalogService.getCatalog1();
         System.out.println("打印：" + pmsBaseCatalog1s);
@@ -38,6 +40,7 @@ public class CatalogController {
     @PostMapping("getCatalog2")
     @ResponseBody
     public List<PmsBaseCatalog2> getCatalog2(String catalog1Id) {
+
         List<PmsBaseCatalog2> baseCatalog2s = catalogService.getCatalog2(catalog1Id);
         return baseCatalog2s;
     }
@@ -45,7 +48,9 @@ public class CatalogController {
     @PostMapping("getCatalog3")
     @ResponseBody
     public List<PmsBaseCatalog3> getCatalog3(String catalog2Id) {
+
         List<PmsBaseCatalog3> baseCatalog3s = catalogService.getCatalog3(catalog2Id);
         return baseCatalog3s;
     }
+
 }
