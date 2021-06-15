@@ -3,16 +3,28 @@ package com.ygl.gmall.util;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+/**
+ * @param
+ * @return
+ */
 public class CookieUtil {
 
-
+    /***
+     * 获得cookie中的值，默认为主ip：www.gmall.com
+     * @param request
+     * @param cookieName
+     * @param isDecoder
+     * @return
+     */
     public static String getCookieValue(HttpServletRequest request, String cookieName, boolean isDecoder) {
+
         Cookie[] cookies = request.getCookies();
-        if (cookies == null || cookieName == null){
+        if (cookies == null || cookieName == null) {
             return null;
         }
         String retValue = null;
@@ -33,8 +45,18 @@ public class CookieUtil {
         return retValue;
     }
 
+    /***
+     * 设置cookie的值
+     * @param request
+     * @param response
+     * @param cookieName
+     * @param cookieValue
+     * @param cookieMaxage
+     * @param isEncode
+     */
+    public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName,
+                                 String cookieValue, int cookieMaxage, boolean isEncode) {
 
-    public static   void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, int cookieMaxage, boolean isEncode) {
         try {
             if (cookieValue == null) {
                 cookieValue = "";
@@ -42,10 +64,14 @@ public class CookieUtil {
                 cookieValue = URLEncoder.encode(cookieValue, "utf-8");
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
-            if (cookieMaxage >= 0)
+            if (cookieMaxage >= 0) {
                 cookie.setMaxAge(cookieMaxage);
+            }
             if (null != request)// 设置域名的cookie
+            {
                 cookie.setDomain(getDomainName(request));
+            }
+            // 在域名的根路径下保存
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
@@ -53,14 +79,14 @@ public class CookieUtil {
         }
     }
 
-
-
-    /**
-     * 得到cookie的域名
+    /***
+     * 获得cookie的主域名，本系统为gmall.com，保存时使用
+     * @param request
+     * @return
      */
     private static final String getDomainName(HttpServletRequest request) {
-        String domainName = null;
 
+        String domainName = null;
         String serverName = request.getRequestURL().toString();
         if (serverName == null || serverName.equals("")) {
             domainName = "";
@@ -81,7 +107,6 @@ public class CookieUtil {
                 domainName = serverName;
             }
         }
-
         if (domainName != null && domainName.indexOf(":") > 0) {
             String[] ary = domainName.split("\\:");
             domainName = ary[0];
@@ -89,4 +114,16 @@ public class CookieUtil {
         System.out.println("domainName = " + domainName);
         return domainName;
     }
+
+    /***
+     * 将cookie中的内容按照key删除
+     * @param request
+     * @param response
+     * @param cookieName
+     */
+    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
+
+        setCookie(request, response, cookieName, null, 0, false);
+    }
+
 }

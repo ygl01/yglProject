@@ -8,11 +8,15 @@ spring:
     jest:
       uris: http://49.235.125.139:9200
   #redis配置
+  #这里将服务器的linux更改为本地redis,这里注意下
   redis:
     host: 49.235.125.139
+#    host: 127.0.0.1
     port: 6379
     database: 0
     password: a18736781957
+    timeout: 100000
+
   #jdbc配置
   datasource:
     username: root

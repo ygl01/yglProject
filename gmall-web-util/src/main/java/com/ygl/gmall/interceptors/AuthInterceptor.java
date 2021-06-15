@@ -1,7 +1,6 @@
 package com.ygl.gmall.interceptors;
 
 import com.ygl.gmall.annotations.LoginRequired;
-import com.ygl.gmall.util.CookieUtil;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
