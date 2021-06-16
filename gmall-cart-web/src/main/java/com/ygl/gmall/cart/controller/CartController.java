@@ -103,10 +103,10 @@ public class CartController {
 
             //从DB中查出购物车数据
             OmsCartItem omsCartItemFromDb = cartService.ifCartExistByUser(memberId, skuId);
-            if (omsCartItems == null) {
+            if (omsCartItemFromDb == null) {
                 //DB为空，该用户没有添加商品
                 omsCartItem.setMemberId(memberId);
-                cartService.addCart(omsCartItemFromDb);
+                cartService.addCart(omsCartItem);
             } else {
                 //该用户添加过该商品
                 //DB 不为空
