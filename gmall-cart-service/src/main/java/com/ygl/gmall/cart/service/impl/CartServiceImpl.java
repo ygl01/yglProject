@@ -79,9 +79,13 @@ public class CartServiceImpl implements CartService {
         //将查询到omsCartItem集合转换为Map集合
         Map<String, String> map = new HashMap<>();
         for (OmsCartItem cartItem : omsCartItems) {
-            //BigDecimal类型是专门处理钱运算的
-            omsCartItem.setTotalPrice(omsCartItem.getPrice().multiply(BigDecimal.valueOf(omsCartItem.getQuantity())));
-            map.put(cartItem.getProductSkuId(), JSON.toJSONString(cartItem));
+            if (cartItem.getQuantity() > 0 && cartItem.getPrice() != null) {
+                //BigDecimal类型是专门处理钱运算的
+                omsCartItem
+                        .setTotalPrice(cartItem.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+                map.put(cartItem.getProductSkuId(), JSON.toJSONString(cartItem));
+            }
+
         }
         jedis.del("user:" + memberId + ":cart");
         //将查询到所有OmsCartItem放进redis数据库中
