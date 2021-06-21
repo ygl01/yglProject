@@ -2,15 +2,18 @@
 
 package com.ygl.gmall.cart.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -70,7 +73,7 @@ public class CartController {
         omsCartItem.setQuantity(quantity);
 
         //判断用户是否登录
-        String memberId = "1"; //"1"
+        String memberId = ""; //"1"
         if (StringUtils.isBlank(memberId)) {
             //cookie中原有购物车数据
             String cartListCookie = CookieUtil.getCookieValue(request, "cartListCookie", true);
@@ -106,11 +109,12 @@ public class CartController {
             if (omsCartItemFromDb == null) {
                 //DB为空，该用户没有添加商品
                 omsCartItem.setMemberId(memberId);
+                omsCartItem.setMemberNickname("test小明");
                 cartService.addCart(omsCartItem);
             } else {
                 //该用户添加过该商品
                 //DB 不为空
-                omsCartItemFromDb.setQuantity(omsCartItem.getQuantity());
+                omsCartItemFromDb.setQuantity(omsCartItemFromDb.getQuantity() + omsCartItem.getQuantity());
                 cartService.updateCart(omsCartItemFromDb);
             }
             //同步缓存
@@ -120,6 +124,49 @@ public class CartController {
 
         //这里是写的操作，因此这种不是采用转发操作，这里采用的重定向操作：用的redirect
         return "redirect:/success.html";
+    }
+
+    /**
+     * TODO
+     * 购物车列表
+     *
+     * @return null
+     * @author ygl
+     * @date 2021/6/20 16:49
+     **/
+    @RequestMapping("cartList")
+    public String cartList(String skuId, HttpServletRequest request, HttpServletResponse response,
+                           ModelMap modelMap) {
+
+        List<OmsCartItem> omsCartItems = new ArrayList<>();
+        String memberId = "1";
+        if (StringUtils.isNotBlank(memberId)) {
+            //代表已经登录  去查询DB
+            omsCartItems = cartService.cartList(memberId, skuId);
+        } else {
+            //代表未登录  直接查询Cookie
+            String cartListCookie = CookieUtil.getCookieValue(request, "cartListCookie", true);
+            if (StringUtils.isNotBlank(cartListCookie)) {
+                omsCartItems = JSON.parseArray(cartListCookie, OmsCartItem.class);
+            }
+        }
+
+        modelMap.put("cartList", omsCartItems);
+        return "cartList";
+    }
+
+    @RequestMapping("checkCart")
+    public String checkCart(String isChecked, String skuId, HttpServletRequest request, HttpServletResponse response,
+                            HttpSession session, ModelMap modelMap) {
+
+        String memberId = "1";
+        //调用服务  修改状态
+        cartService.checkCart(skuId, memberId, isChecked);
+        //将最新的数据从缓存中查出，渲染给内嵌页
+        List<OmsCartItem> omsCartItems = cartService.cartList(memberId, skuId);
+        modelMap.put("cartList", omsCartItems);
+
+        return "cartListInner";
     }
 
     private Boolean if_cart_exist(List<OmsCartItem> omsCartItems, OmsCartItem omsCartItem) {

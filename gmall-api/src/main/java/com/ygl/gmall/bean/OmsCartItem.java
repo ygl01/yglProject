@@ -1,6 +1,7 @@
 package com.ygl.gmall.bean;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -17,7 +18,7 @@ public class OmsCartItem implements Serializable {
 
     private String memberId;
 
-    private int quantity;
+    private Integer quantity;
 
     //商品价格
     private BigDecimal price;
@@ -42,7 +43,7 @@ public class OmsCartItem implements Serializable {
 
     private Date modifyDate;
 
-    private int deleteStatus;
+    private Integer deleteStatus;
 
     private String productCategoryId;
 
@@ -51,6 +52,32 @@ public class OmsCartItem implements Serializable {
     private String productSn;
 
     private String productAttr;
+
+    private String isChecked;
+
+    @Transient
+    private BigDecimal totalPrice;
+
+    public BigDecimal getTotalPrice() {
+
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+
+        this.totalPrice = totalPrice;
+    }
+
+
+    public String getIsChecked() {
+
+        return isChecked;
+    }
+
+    public void setIsChecked(String isChecked) {
+
+        this.isChecked = isChecked;
+    }
 
     public String getId() {
 
@@ -92,14 +119,19 @@ public class OmsCartItem implements Serializable {
         this.memberId = memberId;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
 
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
 
         this.quantity = quantity;
+    }
+
+    public void setDeleteStatus(Integer deleteStatus) {
+
+        this.deleteStatus = deleteStatus;
     }
 
     public BigDecimal getPrice() {
@@ -212,7 +244,7 @@ public class OmsCartItem implements Serializable {
         this.modifyDate = modifyDate;
     }
 
-    public int getDeleteStatus() {
+    public Integer getDeleteStatus() {
 
         return deleteStatus;
     }

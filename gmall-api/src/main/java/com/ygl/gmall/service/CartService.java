@@ -1,5 +1,7 @@
 package com.ygl.gmall.service;
 
+import java.util.List;
+
 import com.ygl.gmall.bean.OmsCartItem;
 
 /**
@@ -16,5 +18,9 @@ public interface CartService {
     void updateCart(OmsCartItem omsCartItemFromDb);
 
     void flushCartCash(String memberId);
+
+    List<OmsCartItem> cartList(String userId, String skuId);
+
+    void checkCart(String skuId,String memberId, String isChecked);
 
 }
