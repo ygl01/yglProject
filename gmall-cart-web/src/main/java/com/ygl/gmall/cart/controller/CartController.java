@@ -150,9 +150,27 @@ public class CartController {
                 omsCartItems = JSON.parseArray(cartListCookie, OmsCartItem.class);
             }
         }
-
+        for (OmsCartItem omsCartItem : omsCartItems) {
+            //BigDecimal类型是专门处理钱运算的
+            omsCartItem.setTotalPrice(omsCartItem.getPrice().multiply(BigDecimal.valueOf(omsCartItem.getQuantity())));
+        }
         modelMap.put("cartList", omsCartItems);
+        //被勾选的商品总额
+        BigDecimal totalAmount = getTotalAmount(omsCartItems);
+        modelMap.put("totalAmount", totalAmount);
         return "cartList";
+    }
+
+    private BigDecimal getTotalAmount(List<OmsCartItem> omsCartItems) {
+
+        BigDecimal totalAmount = new BigDecimal("0");
+        for (OmsCartItem omsCartItem : omsCartItems) {
+            BigDecimal totalPrice = omsCartItem.getPrice().multiply(BigDecimal.valueOf(omsCartItem.getQuantity()));
+            if (omsCartItem.getIsChecked().equals("1")) {
+                totalAmount = totalAmount.add(totalPrice);
+            }
+        }
+        return totalAmount;
     }
 
     @RequestMapping("checkCart")
@@ -165,7 +183,9 @@ public class CartController {
         //将最新的数据从缓存中查出，渲染给内嵌页
         List<OmsCartItem> omsCartItems = cartService.cartList(memberId, skuId);
         modelMap.put("cartList", omsCartItems);
-
+        //被勾选的商品总额
+        BigDecimal totalAmount = getTotalAmount(omsCartItems);
+        modelMap.put("totalAmount", totalAmount);
         return "cartListInner";
     }
 
