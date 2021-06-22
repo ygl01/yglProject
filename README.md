@@ -16,9 +16,8 @@ gmall-search-web 搜索服务前台 8083
 gmall-cart-service 购物车服务后台  8074
 gmall-cart-web 购物车服务前台  8084
 
-
-gmall-user-service 用户服务的service端口号8070
-gmall-passport-web  用户认证中心 8085
+gmall-user-service 用户服务的service层8070
+gmall-passport-web 用户认证中心 8085
 
 
 

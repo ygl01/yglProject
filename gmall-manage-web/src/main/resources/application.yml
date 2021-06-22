@@ -1,7 +1,6 @@
 server:
   port: 8081
 
-
 #配置日志级别
 logging:
   level:

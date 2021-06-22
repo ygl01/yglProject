@@ -9,6 +9,14 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * TODO
+ * 自定义拦截器
+ *
+ * @author ygl
+ * @return null
+ * @date 2021/6/22 10:49
+ **/
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
@@ -31,7 +39,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
         System.out.println("进入拦截器的拦截方法！");
 
-        return true;
+        return loginSuccess;
     }
 
 }

@@ -21,12 +21,13 @@ spring:
     application: user-service
     registry:
       #zookeeper注册中心地址
-      address: 192.168.80.133:2181
+      address: 49.235.125.139:2181
       #zookeeper的通讯协议的名称
       protocol: zookeeper
     #dubbo的通讯协议名称
     protocol:
       name: dubbo
+      port: 20870
     #dubbo的服务扫描路径
     base-package: com.ygl.gmall
 

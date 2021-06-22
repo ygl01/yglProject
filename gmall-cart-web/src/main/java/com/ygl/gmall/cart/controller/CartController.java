@@ -2,11 +2,13 @@
 
 package com.ygl.gmall.cart.controller;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.ygl.gmall.annotations.LoginRequired;
 import com.ygl.gmall.bean.OmsCartItem;
 import com.ygl.gmall.bean.PmsSkuInfo;
 import com.ygl.gmall.service.CartService;
@@ -42,6 +45,22 @@ public class CartController {
     CartService cartService;
 
     /**
+     * TODO
+     * 去结算页面
+     *
+     * @return null
+     * @author ygl
+     * @date 2021/6/22 10:33
+     **/
+    @RequestMapping("toTrade")
+    @LoginRequired
+    public String toTrade(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                          ModelMap modelMap) {
+
+        return "toTrade";
+    }
+
+    /**
      * TODO 重定向新页面，因为需要将内容写在新页面
      *
      * @return null
@@ -49,6 +68,7 @@ public class CartController {
      * @date 2021/5/30 19:06
      **/
     @RequestMapping("addToCart")
+    @LoginRequired(loginSuccess = false)
     //传skuid和quantity(商品数量)
     public String addToCart(String skuId, int num, HttpServletRequest request, HttpServletResponse response) {
 
@@ -135,6 +155,7 @@ public class CartController {
      * @date 2021/6/20 16:49
      **/
     @RequestMapping("cartList")
+    @LoginRequired(loginSuccess = false)
     public String cartList(String skuId, HttpServletRequest request, HttpServletResponse response,
                            ModelMap modelMap) {
 
@@ -174,6 +195,7 @@ public class CartController {
     }
 
     @RequestMapping("checkCart")
+    @LoginRequired(loginSuccess = false)
     public String checkCart(String isChecked, String skuId, HttpServletRequest request, HttpServletResponse response,
                             HttpSession session, ModelMap modelMap) {
 
