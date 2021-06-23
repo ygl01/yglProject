@@ -22,5 +22,18 @@ public class PassportController {
 
         return "index";
     }
+    /**
+    *
+    * TODO
+    * login接口
+    * @return null
+    * @author ygl
+    * @date 2021/6/22 18:07
+    **/
+    @RequestMapping("login")
+    public String login() {
+
+        return "index";
+    }
 
 }
